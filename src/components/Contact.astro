@@ -1,7 +1,22 @@
 ---
+import { Picture } from 'astro:assets';
 import { site, contact } from '../data/content';
+import { credits } from '../data/credits';
 import Scallop from './Scallop.astro';
+import souq from '../assets/photos/souq.jpg';
 const year = new Date().getFullYear();
+const used = ['doha', 'dunes', 'hdb', 'casebook', 'plan', 'excavation', 'nus', 'souq'];
+const shown = used.map((n) => credits.find((c) => c.name === n)!).filter(Boolean);
+const shortTitle: Record<string, string> = {
+  doha: 'Doha West Bay skyline',
+  dunes: 'Khor Al Udayd',
+  hdb: 'Tampines Street 45',
+  casebook: 'Paddock casebook',
+  plan: 'Plan of the City of Singapore, 1893',
+  excavation: 'Sunset Boulevard excavation',
+  nus: 'CREATE Tower, NUS',
+  souq: 'Souq Waqif by night',
+};
 ---
 
 <footer id="contact" class="curtain back" aria-labelledby="contact-title">
@@ -13,6 +28,19 @@ const year = new Date().getFullYear();
         <p class="message">{contact.message}</p>
         <a class="top" href="#top">Back to the top</a>
       </div>
+      <div class="right">
+        <figure class="stamp">
+          <Picture
+            src={souq}
+            widths={[320, 480]}
+            sizes="160px"
+            formats={['avif', 'webp']}
+            alt="The lit lanes of Souq Waqif in Doha at night, with the spiral minaret of the Islamic Cultural Centre behind."
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption class="sr-only">Souq Waqif, Doha, at night.</figcaption>
+        </figure>
       <ul class="address">
         <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
         <li>
@@ -23,7 +51,19 @@ const year = new Date().getFullYear();
         </li>
         <li><a href={site.resume} download>Resume, PDF</a></li>
       </ul>
+      </div>
       <p class="imprint small">&copy; {year} Kenil Gandhi</p>
+      <p class="credits small">
+        Photographs from Wikimedia Commons:
+        {
+          shown.map((c, i) => (
+            <>
+              <a href={c.page} target="_blank" rel="noopener noreferrer">{shortTitle[c.name]}</a>
+              {' '}by {c.artist || 'unknown'}, {c.license}{i < shown.length - 1 ? '; ' : '.'}
+            </>
+          ))
+        }
+      </p>
     </div>
   </div>
 </footer>
@@ -67,11 +107,32 @@ const year = new Date().getFullYear();
     display: inline-block;
     margin-top: 32px;
   }
+  .right {
+    justify-self: end;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 28px;
+  }
+  .stamp {
+    margin: 0;
+    width: 160px;
+    aspect-ratio: 3 / 4;
+    padding: 6px;
+    background: var(--paper);
+    transform: rotate(2deg);
+  }
+  .stamp :global(picture),
+  .stamp :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
   .address {
     list-style: none;
     margin: 0;
     padding: 0;
-    justify-self: end;
     text-align: right;
     font-size: var(--step-lead);
     line-height: 1.3;
@@ -89,6 +150,12 @@ const year = new Date().getFullYear();
     max-width: none;
     align-self: end;
   }
+  .credits {
+    grid-column: 1 / -1;
+    color: var(--on-ground-muted);
+    max-width: none;
+    line-height: 1.5;
+  }
   @media (max-width: 767px) {
     .back {
       padding-top: 72px;
@@ -99,8 +166,11 @@ const year = new Date().getFullYear();
       row-gap: 32px;
       min-height: 0;
     }
-    .address {
+    .right {
       justify-self: start;
+      align-items: flex-start;
+    }
+    .address {
       text-align: left;
     }
   }

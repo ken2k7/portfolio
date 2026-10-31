@@ -28,3 +28,28 @@ Round 2 critique (desktop 1280, phone 360):
   content starts below the 72px stacked strip; band tabs anchored on phones; footer scallops cut into the
   panel; heading "Education and activities" held to two lines.
 - Still soft: the Skills column is a second centred moment after the hero; the Kenbot band is short.
+
+## Round 3: pictures and motion (31 Oct 2026)
+
+Kenil asked for real pictures and a fluid feel. Photographs are from Wikimedia Commons, all CC BY, CC BY-SA
+or public domain, credited in the footer and listed in `src/data/credits.ts`. Originals were fetched at
+2400px into `src/assets/photos/`; Astro emits AVIF and WebP at several widths.
+
+Pictures and their jobs:
+- Doha West Bay at night: the hero ground. Its blues are the palette's cobalt.
+- Khor Al Udayd dunes meeting the sea: the About scene, a window that opens to the edges on scroll.
+- Tampines Street 45: tipped into the letter, where the move to Singapore is mentioned.
+- Paddock casebook: MediGraph's plate, a handwritten record of remedies.
+- Plan of the City of Singapore, 1893, and the Sunset Boulevard excavation: InfraSync's plates.
+- CREATE Tower, NUS: the Education plate. Souq Waqif at night: the stamp on the back of the folder.
+
+Motion layer:
+- Signature move: a WebGL water ripple on the hero photograph following the pointer, custom GLSL, no
+  library. Fine pointers only, started after load or first movement. The photo beneath is a plain img.
+- Scroll-driven CSS: plates open with a clip reveal and drift; the About window opens from 26% inset to
+  full bleed over the scene's contain range. Browsers without scroll timelines get the finished state.
+- Kept: the load sequence, the sticky folder pile, the curtain footer (now only where it fits the viewport).
+- Reduced motion switches off the shader, the entrances and the scroll animations.
+
+Measured after this round: Lighthouse 99 mobile, 100 desktop. The mobile drop to 80 before gating the
+shader (810 ms blocking) is why the shader waits for load and skips touch devices.

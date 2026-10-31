@@ -1,6 +1,8 @@
 ---
+import { Picture } from 'astro:assets';
 import { site, record } from '../data/content';
 import Scallop from './Scallop.astro';
+import nus from '../assets/photos/nus.jpg';
 ---
 
 <section id="education" class="education" aria-labelledby="education-title">
@@ -9,6 +11,18 @@ import Scallop from './Scallop.astro';
       <h2 id="education-title">Education and activities</h2>
       <p class="lead">Coursework, courses, activities and awards, as they appear in the resume.</p>
       <a href={site.resume} download class="button">Download resume<span class="sr-only"> (PDF)</span></a>
+      <figure class="plate opens campus">
+        <Picture
+          src={nus}
+          widths={[400, 600, 1000, 1400]}
+          sizes="(min-width: 1024px) 40vw, calc(100vw - 32px)"
+          formats={['avif', 'webp']}
+          alt="The CREATE Tower and surrounding campus of the National University of Singapore seen from above, with trees and the city beyond."
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption class="caption">CREATE Tower, National University of Singapore.</figcaption>
+      </figure>
     </div>
     <div class="sheet-wrap">
       <Scallop />
@@ -74,6 +88,27 @@ import Scallop from './Scallop.astro';
     margin-top: 32px;
     --tab: var(--paper);
     --on-tab: var(--ink);
+  }
+  .campus {
+    margin: 48px 0 0;
+    aspect-ratio: 4 / 3;
+    --quiet: var(--on-ground-muted);
+  }
+  .campus :global(picture),
+  .campus :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .campus .caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 6px 10px;
+    color: #f2ebdc;
+    background: rgba(20, 24, 40, 0.55);
   }
   .sheet-wrap {
     grid-column: 7 / span 6;

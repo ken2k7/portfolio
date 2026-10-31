@@ -1,5 +1,30 @@
 ---
+import { Picture } from 'astro:assets';
 import { site, workIntro, workFiles } from '../data/content';
+import casebook from '../assets/photos/casebook.jpg';
+import plan from '../assets/photos/plan.jpg';
+import excavation from '../assets/photos/excavation.jpg';
+const photos: Record<string, { src: ImageMetadata; alt: string; caption: string }[]> = {
+  medigraph: [
+    {
+      src: casebook,
+      alt: 'A page of a handwritten physician\u2019s casebook listing patients, remedies such as eye water and tincture, and charges.',
+      caption: 'Francis Paddock\u2019s casebook: remedies and charges, by hand.',
+    },
+  ],
+  infrasync: [
+    {
+      src: plan,
+      alt: 'A coloured 1893 plan of the city of Singapore showing its street grid, river and harbour.',
+      caption: 'Plan of the City of Singapore, Constable\u2019s Hand Atlas of India, 1893.',
+    },
+    {
+      src: excavation,
+      alt: 'A black and white archival photograph of Sunset Boulevard in Los Angeles cut open for excavation, palm trees along the kerb.',
+      caption: 'Sunset Boulevard, cut open.',
+    },
+  ],
+};
 import FigMediGraph from './figures/FigMediGraph.astro';
 import FigInfraSync from './figures/FigInfraSync.astro';
 import FigKgisl from './figures/FigKgisl.astro';
@@ -27,6 +52,16 @@ const figures = { medigraph: FigMediGraph, infrasync: FigInfraSync, kgisl: FigKg
               <p class="kind">{w.kind}</p>
               <div class="band-grid">
                 <div class="figure">
+                  {photos[w.id] && (
+                    <div class:list={['plates', { two: photos[w.id].length === 2 }]}>
+                      {photos[w.id].map((ph) => (
+                        <figure class="plate opens">
+                          <Picture src={ph.src} widths={[400, 700, 1000, 1400, 1800]} sizes="(min-width: 1024px) 48vw, calc(100vw - 32px)" formats={['avif', 'webp']} alt={ph.alt} loading="lazy" decoding="async" />
+                          <figcaption class="caption">{ph.caption}</figcaption>
+                        </figure>
+                      ))}
+                    </div>
+                  )}
                   <Fig />
                 </div>
                 <div class="text">
@@ -148,6 +183,37 @@ const figures = { medigraph: FigMediGraph, infrasync: FigInfraSync, kgisl: FigKg
     grid-column: 1 / span 7;
     align-self: start;
   }
+  .plates {
+    display: grid;
+    gap: var(--gutter);
+    margin-bottom: 32px;
+  }
+  .plates.two {
+    grid-template-columns: 2fr 1fr;
+  }
+  .plate {
+    margin: 0;
+    aspect-ratio: 16 / 10;
+  }
+  .plates.two .plate {
+    aspect-ratio: 4 / 3;
+  }
+  .plate :global(picture),
+  .plate :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .plate .caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 6px 10px;
+    color: #f2ebdc;
+    background: rgba(20, 24, 40, 0.55);
+  }
   .text {
     grid-column: 8 / span 5;
   }
@@ -189,6 +255,12 @@ const figures = { medigraph: FigMediGraph, infrasync: FigInfraSync, kgisl: FigKg
     }
   }
   @media (max-width: 767px) {
+    .plates.two {
+      grid-template-columns: 1fr;
+    }
+    .plates.two .plate {
+      aspect-ratio: 16 / 10;
+    }
     .front {
       width: 100%;
       margin-top: -36px;

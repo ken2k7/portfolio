@@ -1,14 +1,47 @@
 ---
+import { Picture } from 'astro:assets';
 import { site, letter } from '../data/content';
 import Scallop from './Scallop.astro';
+import dunes from '../assets/photos/dunes.jpg';
+import hdb from '../assets/photos/hdb.jpg';
 ---
 
 <section id="about" class="about" aria-labelledby="about-title">
+  <div class="scene">
+    <div class="stage">
+      <figure class="window">
+        <Picture
+          src={dunes}
+          widths={[800, 1400, 2000, 2400]}
+          sizes="100vw"
+          formats={['avif', 'webp']}
+          alt="Pale sand dunes meeting the sea at Khor Al Udayd in Qatar, two small figures walking along the shore."
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption class="caption">Khor Al Udayd, Qatar, where the dunes meet the sea.</figcaption>
+      </figure>
+    </div>
+  </div>
+
   <div class="sheet-wrap">
     <div class="sheet">
       <h2 id="about-title">About</h2>
       <div class="body">
-        {letter.paragraphs.map((p) => <p>{p}</p>)}
+        <p>{letter.paragraphs[0]}</p>
+        <figure class="tipped plate opens">
+          <Picture
+            src={hdb}
+            widths={[600, 1000, 1400]}
+            sizes="(min-width: 768px) 520px, 100vw"
+            formats={['avif', 'webp']}
+            alt="A pink and beige public housing block in Tampines, Singapore, with a large square opening through its middle."
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption class="caption">Tampines Street 45, Singapore.</figcaption>
+        </figure>
+        {letter.paragraphs.slice(1).map((p) => <p>{p}</p>)}
       </div>
       <p class="sign">{letter.signature}</p>
       <p class="role small">{letter.role}</p>
@@ -22,13 +55,67 @@ import Scallop from './Scallop.astro';
 
 <style>
   .about {
-    padding: clamp(96px, 12vw, 180px) var(--margin);
+    position: relative;
     background: var(--ground);
     color: var(--on-ground);
+    padding-bottom: clamp(96px, 12vw, 180px);
   }
+  /* A window that opens to the edges as you scroll, then the letter rides over the picture. */
+  .scene {
+    height: 170svh;
+    view-timeline-name: --about-scene;
+    view-timeline-axis: block;
+  }
+  .stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+  }
+  .window {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+  }
+  .window :global(picture),
+  .window :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .window .caption {
+    position: absolute;
+    left: var(--margin);
+    bottom: 20px;
+    margin: 0;
+    padding: 6px 10px;
+    color: #f2ebdc;
+    background: rgba(20, 24, 40, 0.55);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .window {
+        animation: open linear both;
+        animation-timeline: --about-scene;
+        animation-range: contain 0% contain 75%;
+      }
+      @keyframes open {
+        from {
+          clip-path: inset(26% 24% 26% 24%);
+        }
+        to {
+          clip-path: inset(0 0 0 0);
+        }
+      }
+    }
+  }
+
   .sheet-wrap {
-    width: min(640px, 100%);
-    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    width: min(640px, 100% - 2 * var(--margin));
+    margin: -38svh auto 0;
     --sheet: var(--paper);
   }
   .sheet {
@@ -44,6 +131,30 @@ import Scallop from './Scallop.astro';
     margin-top: 28px;
     font-size: var(--step-body);
     line-height: 1.55;
+  }
+  .tipped {
+    margin: 28px 0;
+    aspect-ratio: 3 / 2;
+    --quiet: var(--muted);
+  }
+  .tipped :global(picture),
+  .tipped :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .tipped .caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 6px 10px;
+    color: #f2ebdc;
+    background: rgba(20, 24, 40, 0.55);
+  }
+  .body p + p {
+    margin-top: 0.9em;
   }
   .sign {
     margin-top: 32px;
@@ -75,6 +186,12 @@ import Scallop from './Scallop.astro';
     text-decoration: underline;
   }
   @media (max-width: 767px) {
+    .scene {
+      height: 150svh;
+    }
+    .sheet-wrap {
+      margin-top: -30svh;
+    }
     .sheet {
       padding: 32px 24px 32px;
     }
