@@ -74,6 +74,25 @@ function build() {
   });
   tl.fromTo(q('.copy-is .reveal'), { y: 36, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, stagger: 0.4, ease: 'power2.out' }, 7.1)
     .to({}, { duration: 0.6 });
+  tl.addLabel('mg', 3.0).addLabel('is', 7.4);
+
+  // Links into the scene jump to the moment that layer is fully on stage, not to the stage's top.
+  const jumpTo = (label: string) => {
+    const st = tl.scrollTrigger!;
+    const y = st.start + (tl.labels[label] / tl.duration()) * (st.end - st.start);
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  };
+  const targets: Record<string, string> = { '#work': 'mg', '#medigraph': 'mg', '#infrasync': 'is' };
+  document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((a) => {
+    const label = targets[a.getAttribute('href') ?? ''];
+    if (!label) return;
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      jumpTo(label);
+      history.replaceState(null, '', a.getAttribute('href'));
+    });
+  });
+  if (targets[location.hash]) requestAnimationFrame(() => jumpTo(targets[location.hash]));
 
   // Play film only while its layer is on screen.
   const films = q<HTMLVideoElement>('video.film');
