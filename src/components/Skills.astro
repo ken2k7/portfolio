@@ -1,0 +1,23 @@
+---
+import Section from './Section.astro';
+import { skills } from '../data/content';
+---
+
+<Section id="skills" number="04 — Skills" title="What I work with.">
+  <dl class="divide-y rule border-y rule">
+    {
+      skills.map((g) => (
+        <div class="reveal grid gap-2 py-5 sm:grid-cols-12 sm:gap-8">
+          <dt class="label sm:col-span-4 sm:pt-1">{g.group}</dt>
+          <dd class="sm:col-span-8">
+            <ul class="flex flex-wrap gap-x-2 gap-y-2">
+              {g.items.map((item) => (
+                <li class="rounded-full border rule px-3 py-1 text-sm leading-snug text-ink">{item}</li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
+</Section>

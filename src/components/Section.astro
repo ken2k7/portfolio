@@ -1,0 +1,27 @@
+---
+interface Props {
+  id: string;
+  number: string;
+  title: string;
+  lede?: string;
+  class?: string;
+}
+const { id, number, title, lede, class: extra = '' } = Astro.props;
+---
+
+<section id={id} aria-labelledby={`${id}-title`} class={`border-t rule ${extra}`}>
+  <div class="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20 lg:grid lg:grid-cols-12 lg:gap-10 lg:py-24">
+    <div class="reveal lg:col-span-4">
+      <div class="lg:sticky lg:top-24">
+        <p class="label">{number}</p>
+        <h2 id={`${id}-title`} class="font-display mt-3 text-4xl leading-[1.05] sm:text-5xl">
+          {title}
+        </h2>
+        {lede && <p class="mt-5 max-w-xs text-base leading-relaxed text-ink-soft">{lede}</p>}
+      </div>
+    </div>
+    <div class="mt-10 lg:col-span-8 lg:mt-0">
+      <slot />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,248 @@
+@import "tailwindcss";
+
+/* ---------- Fonts (self-hosted, latin subsets only) ---------- */
+@font-face {
+  font-family: "Instrument Serif";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/instrument-serif-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Instrument Serif";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/instrument-serif-latin-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/geist-latin-wght-normal.woff2") format("woff2");
+}
+
+/* ---------- Colour tokens ---------- */
+:root {
+  --paper: #f6f3ee;
+  --paper-raised: #fdfcfa;
+  --ink: #1c1a17;
+  --ink-soft: #5a554e;
+  --rule: #ddd7cd;
+  --rule-strong: #b9b1a4;
+  --accent: #8a1538;
+  --accent-ink: #ffffff;
+  --accent-wash: rgba(138, 21, 56, 0.07);
+  --selection: rgba(138, 21, 56, 0.18);
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  --paper: #141210;
+  --paper-raised: #1c1916;
+  --ink: #ece7df;
+  --ink-soft: #a9a297;
+  --rule: #2c2824;
+  --rule-strong: #4a443c;
+  --accent: #e9a2b6;
+  --accent-ink: #141210;
+  --accent-wash: rgba(233, 162, 182, 0.1);
+  --selection: rgba(233, 162, 182, 0.3);
+  color-scheme: dark;
+}
+/* No-JS fallback: follow the system when no explicit theme is set */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --paper: #141210;
+    --paper-raised: #1c1916;
+    --ink: #ece7df;
+    --ink-soft: #a9a297;
+    --rule: #2c2824;
+    --rule-strong: #4a443c;
+    --accent: #e9a2b6;
+    --accent-ink: #141210;
+    --accent-wash: rgba(233, 162, 182, 0.1);
+    --selection: rgba(233, 162, 182, 0.3);
+    color-scheme: dark;
+  }
+}
+
+@theme {
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-wash: var(--accent-wash);
+
+  --font-display: "Instrument Serif", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+
+  --breakpoint-xs: 26rem;
+}
+
+/* ---------- Base ---------- */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+::selection {
+  background: var(--selection);
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* ---------- Typography helpers ---------- */
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.label {
+  font-size: 0.6875rem;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+}
+.prose-site p + p {
+  margin-top: 1em;
+}
+.link {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--rule-strong);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  transition: text-decoration-color 0.2s ease, color 0.2s ease;
+}
+.link:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+.rule {
+  border-color: var(--rule);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.625rem 1.125rem;
+  border-radius: 999px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: 1px solid var(--accent);
+}
+.btn-primary:hover {
+  filter: brightness(1.08);
+}
+.btn-ghost {
+  color: var(--ink);
+  border: 1px solid var(--rule-strong);
+  background: transparent;
+}
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+@media (hover: hover) {
+  .btn:active { transform: translateY(1px); }
+}
+
+/* ---------- Scroll reveal (progressively enhanced) ---------- */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.6, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.6, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ---------- Hero name hairline underline animation ---------- */
+.hairline {
+  position: relative;
+}
+.hairline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.1em;
+  height: 1px;
+  background: var(--rule-strong);
+  transform-origin: left;
+}
+.js .hairline::after {
+  transform: scaleX(0);
+  transition: transform 1s cubic-bezier(0.2, 0.6, 0.2, 1) 0.3s;
+}
+.js .hairline.is-visible::after {
+  transform: scaleX(1);
+}
+
+@media print {
+  .js .reveal, .js .hairline::after { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+/* Case-study card ledger numbers */
+.ledger {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Theme toggle icon swap */
+.theme-toggle .icon-moon { display: none; }
+.theme-toggle .icon-sun { display: block; }
+:root[data-theme="dark"] .theme-toggle .icon-moon { display: block; }
+:root[data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .theme-toggle .icon-moon { display: block; }
+  :root:not([data-theme]) .theme-toggle .icon-sun { display: none; }
+}

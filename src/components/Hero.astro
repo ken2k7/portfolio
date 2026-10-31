@@ -1,0 +1,54 @@
+---
+import { site, hero } from '../data/content';
+import ExternalIcon from './ExternalIcon.astro';
+---
+
+<section id="top" aria-label="Introduction" class="relative">
+  <div class="mx-auto flex min-h-[calc(100dvh-3.5rem)] max-w-6xl flex-col justify-between px-5 pb-12 pt-16 sm:px-8 sm:pt-24 lg:pb-16 lg:pt-28">
+    <div>
+      <p class="reveal label" style="--reveal-delay: 0ms">
+        Portfolio &middot; {site.location}, from {site.origin}
+        <span id="local-time" class="ledger whitespace-nowrap before:mx-2 before:content-['·'] empty:before:content-none" aria-live="off"></span>
+      </p>
+
+      <h1 class="reveal font-display mt-8 text-[clamp(3.25rem,13vw,10.5rem)] leading-[0.92] tracking-[-0.02em]" style="--reveal-delay: 80ms">
+        <span class="hairline inline-block pb-1">Kenil</span>
+        <br class="sm:hidden" />
+        <span class="inline-block sm:ml-[0.1em]">Gandhi</span>
+      </h1>
+
+      <p class="reveal font-display mt-10 max-w-3xl text-[clamp(1.5rem,3.4vw,2.5rem)] leading-[1.15] text-ink" style="--reveal-delay: 180ms">
+        I build full-stack and applied-AI products that <em class="text-accent">show their working</em>.
+      </p>
+
+      <p class="reveal mt-6 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg" style="--reveal-delay: 260ms">
+        {hero.sub}
+      </p>
+    </div>
+
+    <div class="reveal mt-14 flex flex-col gap-6 border-t rule pt-6 sm:flex-row sm:items-center sm:justify-between" style="--reveal-delay: 340ms">
+      <ul class="flex flex-wrap items-center gap-x-6 gap-y-3 text-[0.9375rem]">
+        <li>
+          <a href={`mailto:${site.email}`} class="link">{site.email}</a>
+        </li>
+        <li>
+          <a href={site.linkedin} class="link inline-flex items-center gap-1" target="_blank" rel="noopener noreferrer">
+            LinkedIn <ExternalIcon /><span class="sr-only">(opens in a new tab)</span>
+          </a>
+        </li>
+        <li>
+          <a href={site.github} class="link inline-flex items-center gap-1" target="_blank" rel="noopener noreferrer">
+            GitHub <ExternalIcon /><span class="sr-only">(opens in a new tab)</span>
+          </a>
+        </li>
+      </ul>
+      <a href={site.resume} download class="btn btn-primary self-start sm:self-auto">
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 4v11m0 0 4-4m-4 4-4-4M5 19h14" />
+        </svg>
+        Download resume
+        <span class="sr-only">(PDF)</span>
+      </a>
+    </div>
+  </div>
+</section>

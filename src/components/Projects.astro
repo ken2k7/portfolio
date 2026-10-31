@@ -1,0 +1,119 @@
+---
+import Section from './Section.astro';
+import ExternalIcon from './ExternalIcon.astro';
+import { caseStudies, smallProjects } from '../data/content';
+---
+
+<Section
+  id="projects"
+  number="03 — Projects"
+  title="Things I have built."
+  lede="Two case studies in depth, and one smaller piece of coursework I am proud of."
+>
+  <div class="space-y-6">
+    {
+      caseStudies.map((cs) => (
+        <article
+          id={cs.id}
+          aria-labelledby={`${cs.id}-name`}
+          class="reveal rounded-2xl border rule bg-paper-raised p-6 sm:p-8 lg:p-10"
+        >
+          <div class="grid gap-8 lg:grid-cols-12 lg:gap-10">
+            <header class="lg:col-span-4">
+              <p class="label">
+                <span class="ledger">{cs.index}</span> &middot; {cs.kicker}
+              </p>
+              <h3 id={`${cs.id}-name`} class="font-display mt-3 text-4xl leading-none sm:text-5xl">
+                {cs.name}
+              </h3>
+              <p class="mt-4 text-ink">{cs.role}</p>
+              <p class="mt-1 text-sm text-ink-soft">{cs.when}</p>
+
+              <h4 class="label mt-8">Stack</h4>
+              <ul class="mt-3 flex flex-wrap gap-x-3 gap-y-1.5 text-sm text-ink-soft" aria-label={`${cs.name} technology stack`}>
+                {cs.stack.map((s) => (
+                  <li class="after:ml-3 after:text-rule-strong after:content-['/'] last:after:content-none">{s}</li>
+                ))}
+              </ul>
+
+              {cs.links && (
+                <ul class="mt-8 flex flex-wrap gap-4">
+                  {cs.links.map((l) => (
+                    <li>
+                      <a href={l.href} class="link inline-flex items-center gap-1" target="_blank" rel="noopener noreferrer">
+                        {l.label} <ExternalIcon />
+                        <span class="sr-only">(opens in a new tab)</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </header>
+
+            <div class="lg:col-span-8">
+              <p class="font-display text-2xl leading-snug sm:text-[1.75rem]">{cs.summary}</p>
+
+              <h4 class="label mt-10">Why</h4>
+              <p class="mt-3 leading-relaxed text-ink">{cs.why}</p>
+
+              <h4 class="label mt-8">What I built</h4>
+              <ul class="mt-3 space-y-3 leading-relaxed">
+                {cs.built.map((b) => (
+                  <li class="relative pl-5 before:absolute before:left-0 before:top-[0.8em] before:h-px before:w-2.5 before:bg-rule-strong">
+                    {b}
+                  </li>
+                ))}
+              </ul>
+
+              {cs.guardrails && (
+                <>
+                  <h4 class="label mt-8">Guardrails</h4>
+                  <p class="mt-3 border-l-2 border-accent pl-4 leading-relaxed text-ink">{cs.guardrails}</p>
+                </>
+              )}
+
+              <dl class:list={["ledger mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-xl border rule bg-rule", cs.facts.length === 3 ? "sm:grid-cols-3" : "sm:grid-cols-4"]}>
+                {cs.facts.map((f) => (
+                  <div class="bg-paper-raised px-4 py-4">
+                    <dt class="label order-2">{f.label}</dt>
+                    <dd class="font-display text-3xl leading-none sm:text-4xl">{f.value}</dd>
+                  </div>
+                ))}
+              </dl>
+              {cs.factsNote && <p class="mt-3 text-sm leading-relaxed text-ink-soft">{cs.factsNote}</p>}
+            </div>
+          </div>
+        </article>
+      ))
+    }
+
+    {
+      smallProjects.map((p) => (
+        <article class="reveal grid gap-6 rounded-2xl border rule p-6 sm:grid-cols-12 sm:gap-8 sm:p-8">
+          <header class="sm:col-span-4">
+            <p class="label">{p.kicker}</p>
+            <h3 class="font-display mt-3 text-3xl leading-none">{p.name}</h3>
+            <ul class="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-sm text-ink-soft" aria-label={`${p.name} technology stack`}>
+              {p.stack.map((s) => (
+                <li class="after:ml-3 after:text-rule-strong after:content-['/'] last:after:content-none">{s}</li>
+              ))}
+            </ul>
+          </header>
+          <div class="sm:col-span-8">
+            <p class="leading-relaxed">{p.summary}</p>
+            <ul class="mt-5 flex flex-wrap gap-5">
+              {p.links.map((l) => (
+                <li>
+                  <a href={l.href} class="link inline-flex items-center gap-1" target="_blank" rel="noopener noreferrer">
+                    {l.label} <ExternalIcon />
+                    <span class="sr-only">(opens in a new tab)</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</Section>

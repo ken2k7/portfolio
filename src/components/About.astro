@@ -1,0 +1,10 @@
+---
+import Section from './Section.astro';
+import { about } from '../data/content';
+---
+
+<Section id="about" number="01 — About" title="A short introduction.">
+  <div class="prose-site reveal max-w-2xl text-lg leading-[1.7] text-ink sm:text-xl">
+    {about.map((p) => <p>{p}</p>)}
+  </div>
+</Section>

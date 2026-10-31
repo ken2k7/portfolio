@@ -1,0 +1,33 @@
+---
+import { site } from '../data/content';
+import ExternalIcon from './ExternalIcon.astro';
+---
+
+<section id="contact" aria-labelledby="contact-title" class="border-t rule">
+  <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28 lg:py-32">
+    <p class="reveal label">07 — Contact</p>
+    <h2 id="contact-title" class="reveal font-display mt-4 max-w-4xl text-[clamp(2.5rem,7vw,5.5rem)] leading-[0.98] tracking-[-0.02em]">
+      Say hello. The fastest way to reach me is <em class="text-accent">email</em>.
+    </h2>
+    <div class="reveal mt-10 flex flex-col gap-6 sm:flex-row sm:flex-wrap sm:items-center" style="--reveal-delay: 120ms">
+      <a href={`mailto:${site.email}`} class="btn btn-primary">
+        {site.email}
+      </a>
+      <ul class="flex flex-wrap items-center gap-x-6 gap-y-3">
+        <li>
+          <a href={site.linkedin} class="link inline-flex items-center gap-1" target="_blank" rel="noopener noreferrer">
+            LinkedIn <ExternalIcon /><span class="sr-only">(opens in a new tab)</span>
+          </a>
+        </li>
+        <li>
+          <a href={site.github} class="link inline-flex items-center gap-1" target="_blank" rel="noopener noreferrer">
+            GitHub <ExternalIcon /><span class="sr-only">(opens in a new tab)</span>
+          </a>
+        </li>
+        <li>
+          <a href={site.resume} download class="link">Download resume <span class="sr-only">(PDF)</span></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
