@@ -192,3 +192,27 @@ export const record = {
 export const contact = {
   message: 'Email is the fastest way to reach me. I am in Singapore, so expect a reply on Singapore time.',
 };
+
+export const stage = {
+  tagline: 'Software that shows its working. Computer science at NUS, from Qatar.',
+  medigraph: {
+    name: 'MediGraph',
+    statement: 'A history you can walk.',
+    beats: [
+      'Upload a prescription or a discharge summary. It becomes dated statements: diagnoses, medication changes, tests, follow-ups. Each one carries the exact line it came from.',
+      'A graph of 11 node types and 10 relationship types. Open a condition and walk to its visits, its medicines, its results, and back to the document.',
+      'It never infers a stopped medication, never interprets a lab result, never says anything it cannot trace. Reviewed with a practising physician in Qatar. 35 automated checks. WCAG AA.',
+    ],
+    meta: 'Founder and full-stack engineer, since August 2026. TypeScript, React, Node.js, Hono, SQLite, Claude and Gemini APIs.',
+  },
+  infrasync: {
+    name: 'InfraSync',
+    lines: ['Same street.', 'Dug twice.', 'Dig once.'],
+    beats: [
+      'Eleven projects across six streets, scheduled together by Google OR-Tools CP-SAT under six hard constraints: ordering, crew capacity, pavement moratoria, funding windows, traffic limits, engineering compatibility.',
+      'Where a water main and a fibre conduit share a trench, the street is opened once. On the synthetic district that is $115,000 saved and 12 fewer road-closure days.',
+      'The solver decides. NVIDIA Nemotron explains the plan from the solver’s own numbers. A person approves every change.',
+    ],
+    meta: 'Nebius and NVIDIA Global AI Hackathon, October 2026, team of two. Python, FastAPI, Pydantic, OR-Tools, Nemotron on Nebius Token Factory, React, TypeScript, Leaflet.',
+  },
+};

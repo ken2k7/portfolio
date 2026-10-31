@@ -1,335 +1,106 @@
 @import "tailwindcss";
 
-/* Fonts: self-hosted latin subsets. Two faces, two jobs. */
-@font-face {
-  font-family: "Bebas Neue";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/bebas-neue-latin-400-normal.woff2") format("woff2");
-}
-@font-face {
-  font-family: "EB Garamond";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/eb-garamond-latin-400-normal.woff2") format("woff2");
-}
-@font-face {
-  font-family: "EB Garamond";
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/eb-garamond-latin-400-italic.woff2") format("woff2");
-}
-@font-face {
-  font-family: "EB Garamond";
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("/fonts/eb-garamond-latin-500-normal.woff2") format("woff2");
-}
+/* One family, three weights, self-hosted. */
+@font-face { font-family: "Schibsted Grotesk"; font-style: normal; font-weight: 400; font-display: swap; src: url("/fonts/schibsted-grotesk-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Schibsted Grotesk"; font-style: normal; font-weight: 500; font-display: swap; src: url("/fonts/schibsted-grotesk-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Schibsted Grotesk"; font-style: normal; font-weight: 800; font-display: swap; src: url("/fonts/schibsted-grotesk-latin-800-normal.woff2") format("woff2"); }
 
-/* Palette: "Cobalt on sand". Two colours do everything, like a two-colour print job. */
+/* Palette taken from the products themselves: InfraSync's ground, one lime accent.
+   Purple, pink and blue appear only inside the real interface pieces. */
 :root {
-  --ground: #062b8a;
-  --on-ground: #e6dbc7;
-  --on-ground-muted: #c9cfe8;
-  --paper: #e6dbc7;
-  --paper-2: #ddd0b9;
-  --ink: #062b8a;
-  --muted: #2f4f9e;
-  --band-b: #062b8a;
-  --on-band-b: #e6dbc7;
-  --on-band-b-muted: #c9cfe8;
-  --tab: #062b8a;
-  --on-tab: #e6dbc7;
-  color-scheme: light;
-}
-:root[data-theme="dark"] {
-  --ground: #04163f;
-  --on-ground: #e6dbc7;
-  --on-ground-muted: #c9cfe8;
-  --paper: #0b2f8c;
-  --paper-2: #113a9f;
-  --ink: #e6dbc7;
-  --muted: #c9cfe8;
-  --band-b: #04163f;
-  --on-band-b: #e6dbc7;
-  --on-band-b-muted: #c9cfe8;
-  --tab: #e6dbc7;
-  --on-tab: #062b8a;
-  color-scheme: dark;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
-    --ground: #04163f;
-    --on-ground: #e6dbc7;
-    --on-ground-muted: #c9cfe8;
-    --paper: #0b2f8c;
-    --paper-2: #113a9f;
-    --ink: #e6dbc7;
-    --muted: #c9cfe8;
-    --band-b: #04163f;
-    --on-band-b: #e6dbc7;
-    --on-band-b-muted: #c9cfe8;
-    --tab: #e6dbc7;
-    --on-tab: #062b8a;
-    color-scheme: dark;
-  }
-}
-
-/* Type scale: few sizes, far apart. */
-:root {
-  --font-display: "Bebas Neue", "Oswald", "Arial Narrow", Impact, sans-serif;
-  --font-text: "EB Garamond", Garamond, "Iowan Old Style", Georgia, serif;
+  --bg: #0b0d12;
+  --bg-2: #11141b;
+  --surface: #171b24;
+  --ink: #eef1f6;
+  --muted: #9aa3b5;
+  --accent: #b8f03a;
+  --accent-ink: #0b0d12;
+  --violet: #8b5cf6;
+  --font: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
   --step-small: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
-  --step-body: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
-  --step-lead: clamp(1.3125rem, 1.15rem + 0.7vw, 1.75rem);
-  --step-head: clamp(2.25rem, 1.4rem + 3.6vw, 4.5rem);
-  --step-display: clamp(3.5rem, 15vw, 13rem);
-  --margin: clamp(0.75rem, 2.2vw, 2rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  --step-lead: clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem);
+  --step-head: clamp(2.25rem, 1.2rem + 5vw, 5.5rem);
+  --step-display: clamp(3.25rem, 13vw, 12rem);
+  --margin: clamp(1rem, 2.4vw, 2.25rem);
   --gutter: clamp(0.75rem, 1.4vw, 1.5rem);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  color-scheme: dark;
 }
 
-@theme {
-  --font-display: var(--font-display);
-  --font-text: var(--font-text);
-}
-
-html {
-  -webkit-text-size-adjust: 100%;
-}
+html { -webkit-text-size-adjust: 100%; background: var(--bg); }
 body {
   margin: 0;
-  background: var(--ground);
-  color: var(--on-ground);
-  font-family: var(--font-text);
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
   font-size: var(--step-body);
   line-height: 1.5;
   font-kerning: normal;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
   overflow-x: clip;
 }
-p {
-  max-width: 62ch;
-  text-wrap: pretty;
-  margin: 0;
-}
-p + p {
-  margin-top: 0.9em;
-}
-h1, h2, h3 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 400;
-  text-wrap: balance;
-  hyphens: none;
-}
-a {
-  color: inherit;
-  text-underline-offset: 0.18em;
-  text-decoration-thickness: 0.07em;
-}
-a:hover {
-  text-decoration-thickness: 0.12em;
-}
-::selection {
-  background: var(--ink);
-  color: var(--paper);
-}
-.on-ground ::selection,
-.on-ground::selection {
-  background: var(--on-ground);
-  color: var(--ground);
-}
-:focus-visible {
-  outline: 3px solid currentColor;
-  outline-offset: 3px;
-}
-[id] {
-  scroll-margin-top: 1.5rem;
-}
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
+p { max-width: 62ch; text-wrap: pretty; margin: 0; }
+p + p { margin-top: 0.9em; }
+h1, h2, h3 { margin: 0; font-weight: 800; letter-spacing: -0.035em; line-height: 0.95; text-wrap: balance; hyphens: none; }
+a { color: inherit; text-underline-offset: 0.18em; text-decoration-thickness: 0.07em; }
+a:hover { text-decoration-thickness: 0.12em; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+[id] { scroll-margin-top: 1.5rem; }
+img, video { display: block; max-width: 100%; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
-/* Display settings */
-.display {
-  font-family: var(--font-display);
-  font-weight: 400;
-  line-height: 0.85;
-  letter-spacing: -0.02em;
-}
-.lead {
-  font-size: var(--step-lead);
-  line-height: 1.35;
-  max-width: 40ch;
-}
-.small {
-  font-size: var(--step-small);
-  line-height: 1.45;
-}
-.num {
-  font-variant-numeric: lining-nums tabular-nums;
-}
+.display { font-size: var(--step-display); font-weight: 800; letter-spacing: -0.05em; line-height: 0.85; }
+.head { font-size: var(--step-head); }
+.lead { font-size: var(--step-lead); line-height: 1.3; max-width: 40ch; letter-spacing: -0.01em; }
+.small { font-size: var(--step-small); line-height: 1.45; }
+.muted { color: var(--muted); }
+.num { font-variant-numeric: tabular-nums lining-nums; }
+.wrap { padding-inline: var(--margin); }
 
-/* Tab: the one motif. A shouldered trapezoid, filled, never outlined. */
-.tab {
-  position: relative;
-  display: inline-block;
-  height: 44px;
-  line-height: 44px;
-  padding: 0 24px;
-  min-width: 160px;
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  letter-spacing: 0;
-  color: var(--on-tab);
-  text-decoration: none;
-  white-space: nowrap;
-  z-index: 1;
-}
-.tab::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--tab);
-  clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 100%, 0 100%);
-  z-index: -1;
-}
-a.tab:hover {
-  text-decoration: underline;
-  text-underline-offset: 0.12em;
-}
-
-/* Button: square-cornered flat block with the tab's shouldered top corners. */
+/* Buttons: flat lime block, square. */
 .button {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 52px;
-  padding: 0 28px;
-  font-family: var(--font-display);
-  font-size: 1.375rem;
-  line-height: 1;
-  color: var(--on-tab);
-  text-decoration: none;
-  z-index: 0;
-  transition: transform 0.2s var(--ease-out);
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 52px; padding: 0 26px;
+  background: var(--accent); color: var(--accent-ink);
+  font-weight: 800; font-size: 1.0625rem; letter-spacing: -0.01em; text-decoration: none;
+  transition: transform 0.2s var(--ease-out), filter 0.2s ease;
 }
-.button::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--tab);
-  clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%, 0 10px);
-  z-index: -1;
-  transition: filter 0.2s ease;
-}
-.button:hover::before {
-  filter: brightness(1.12);
-}
-.button:active {
-  transform: translateY(1px);
-}
+.button:hover { filter: brightness(1.08); }
+.button:active { transform: translateY(1px); }
+.button.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 2px var(--surface); }
+.button.ghost:hover { box-shadow: inset 0 0 0 2px var(--muted); filter: none; }
 
-/* Curtain footer: main slides up to uncover the footer. No script.
-   Only where the footer fits in the viewport; on phones it flows normally. */
-main {
-  position: relative;
-  z-index: 1;
-  background: var(--ground);
+/* Top row */
+.topbar {
+  position: fixed; inset: 0 0 auto 0; z-index: 40;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px var(--margin);
+  font-weight: 500; font-size: 1rem;
+  pointer-events: none;
 }
-@media (min-width: 768px) and (min-height: 760px) {
-  .curtain {
-    position: sticky;
-    bottom: 0;
-    z-index: 0;
-  }
-}
+.topbar > * { pointer-events: auto; }
+.topbar a { text-decoration: none; }
+.topbar .mark { font-weight: 800; letter-spacing: -0.03em; opacity: 0; transition: opacity 0.3s ease; }
+html.motion .topbar .mark.show { opacity: 1; }
+html:not(.motion) .topbar .mark { opacity: 1; }
 
-/* Load sequence: one orchestrated moment. CSS only; nothing depends on script. */
-@media (prefers-reduced-motion: no-preference) {
-  .enter {
-    animation: rise 0.9s var(--ease-out) both;
-    animation-delay: var(--delay, 0ms);
-  }
-  @keyframes rise {
-    from {
-      opacity: 0;
-      transform: translateY(28px);
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
-  }
-}
+/* Scrims: the permitted gradient, under type on footage. */
+.scrim { position: absolute; inset: 0; pointer-events: none; }
+.scrim.bottom { background: linear-gradient(to top, rgba(11, 13, 18, 0.92) 0%, rgba(11, 13, 18, 0.55) 40%, rgba(11, 13, 18, 0.15) 75%, rgba(11, 13, 18, 0) 100%); }
+.scrim.full { background: rgba(11, 13, 18, 0.55); }
 
-/* ---------- Pictures ---------- */
-.plate {
-  display: block;
-  position: relative;
-  overflow: hidden;
-  background: var(--paper-2);
-}
-.plate img,
-.plate picture {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.plate img {
-  object-fit: cover;
-}
-.caption {
-  margin-top: 10px;
-  font-size: var(--step-small);
-  color: var(--quiet, var(--muted));
-  max-width: none;
-}
+/* Film: muted loops, graded dark and cool so they sit in the palette. */
+.film { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.55) saturate(0.75) contrast(1.05); }
 
-/* Scroll-driven motion: plates open as they enter; the hero photo settles as you scroll.
-   Progressive: browsers without scroll timelines show the finished state. */
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
-    .plate.opens {
-      animation: plate-open linear both;
-      animation-timeline: view();
-      animation-range: entry 10% entry 70%;
-    }
-    .plate.opens img {
-      animation: plate-drift linear both;
-      animation-timeline: view();
-      animation-range: entry 0% exit 100%;
-    }
-    @keyframes plate-open {
-      from {
-        clip-path: inset(12% 8% 12% 8%);
-      }
-      to {
-        clip-path: inset(0 0 0 0);
-      }
-    }
-    @keyframes plate-drift {
-      from {
-        transform: scale(1.12) translateY(3%);
-      }
-      to {
-        transform: scale(1.12) translateY(-3%);
-      }
-    }
-  }
-}
+/* Interface fragments: the real product, square-cropped screenshots. */
+.shot { position: relative; }
+.shot :global(img), .shot :global(picture) { width: 100%; height: auto; display: block; }
+.shot.rounded { border-radius: 10px; overflow: hidden; }
+.chip { position: absolute; height: auto; pointer-events: none; }
+
+/* Section rhythm for the flowing part of the page */
+.section { padding: clamp(96px, 12vw, 200px) var(--margin); }
+.grid12 { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); }

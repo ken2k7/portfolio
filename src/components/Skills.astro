@@ -2,108 +2,66 @@
 import { skills } from '../data/content';
 ---
 
-<section id="skills" class="skills" aria-labelledby="skills-title">
-  <div class="col">
-    <h2 id="skills-title" class="giant">Skills</h2>
-    <div class="bars">
-      {
-        skills.map((g, i) => (
-          <details class="bar" open={i === 0}>
-            <summary>
-              <h3>{g.group}</h3>
-              <span class="plus" aria-hidden="true" />
-            </summary>
-            <ul>
-              {g.items.map((item) => (
-                <li>{item}</li>
-              ))}
-            </ul>
-          </details>
-        ))
-      }
-    </div>
-  </div>
+<section id="skills" class="section skills" aria-labelledby="skills-title">
+  <h2 id="skills-title" class="head">Skills</h2>
+  <dl>
+    {
+      skills.map((g) => (
+        <div class="row">
+          <dt class="muted">{g.group}</dt>
+          <dd>
+            {g.items.map((item, i) => (
+              <>
+                <span class="item">{item}</span>
+                {i < g.items.length - 1 && <span class="sep" aria-hidden="true"> </span>}
+              </>
+            ))}
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
 </section>
 
 <style>
   .skills {
-    padding: clamp(96px, 12vw, 180px) var(--margin);
-    background: var(--paper);
-    color: var(--ink);
+    background: var(--bg);
   }
-  .col {
-    width: min(760px, 100%);
-    margin: 0 auto;
-    container-type: inline-size;
+  dl {
+    margin: 48px 0 0;
   }
-  .giant {
-    font-size: 36cqw;
-    line-height: 0.8;
-    letter-spacing: -0.02em;
-    margin-left: -0.03em;
-  }
-  .bars {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .bar {
-    background: var(--paper-2);
-  }
-  summary {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 56px;
-    padding: 0 18px;
-    cursor: pointer;
-    list-style: none;
-  }
-  summary::-webkit-details-marker {
-    display: none;
-  }
-  summary h3 {
-    font-family: var(--font-text);
-    font-weight: 500;
-    font-size: var(--step-body);
-  }
-  .plus {
-    position: relative;
-    width: 18px;
-    height: 18px;
-    flex: none;
-  }
-  .plus::before,
-  .plus::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 18px;
-    height: 3px;
-    background: currentColor;
-    transform: translate(-50%, -50%);
-    transition: transform 0.3s var(--ease-out);
-  }
-  .plus::after {
-    transform: translate(-50%, -50%) rotate(90deg);
-  }
-  .bar[open] .plus::after {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  .bar ul {
-    list-style: none;
-    margin: 0;
-    padding: 4px 18px 20px;
+  .row {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px 24px;
-    font-size: var(--step-body);
+    grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+    column-gap: var(--gutter);
+    padding: 22px 0;
+    background:
+      linear-gradient(var(--surface), var(--surface)) bottom / 100% 2px no-repeat;
   }
-  @media (max-width: 479px) {
-    .bar ul {
+  dt {
+    padding-top: 0.35em;
+  }
+  dd {
+    margin: 0;
+    font-size: clamp(1.375rem, 1rem + 1.8vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+  .item {
+    display: inline;
+  }
+  .sep::before {
+    content: "/";
+    margin: 0 0.35em;
+    color: var(--muted);
+    font-weight: 400;
+  }
+  @media (max-width: 767px) {
+    .row {
       grid-template-columns: 1fr;
+      row-gap: 8px;
     }
   }
 </style>

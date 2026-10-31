@@ -1,201 +1,97 @@
 ---
-import { Picture } from 'astro:assets';
 import { site, record } from '../data/content';
-import Scallop from './Scallop.astro';
-import nus from '../assets/photos/nus.jpg';
 ---
 
-<section id="education" class="education" aria-labelledby="education-title">
-  <div class="grid">
+<section id="education" class="section education" aria-labelledby="education-title">
+  <div class="grid12">
     <div class="side">
-      <h2 id="education-title">Education and activities</h2>
-      <p class="lead">Coursework, courses, activities and awards, as they appear in the resume.</p>
+      <h2 id="education-title" class="head">Education and activities</h2>
+      <p class="lead muted">{record.school}. {record.degree}</p>
       <a href={site.resume} download class="button">Download resume<span class="sr-only"> (PDF)</span></a>
-      <figure class="plate opens campus">
-        <Picture
-          src={nus}
-          widths={[400, 600, 1000, 1400]}
-          sizes="(min-width: 1024px) 40vw, calc(100vw - 32px)"
-          formats={['avif', 'webp']}
-          alt="The CREATE Tower and surrounding campus of the National University of Singapore seen from above, with trees and the city beyond."
-          loading="lazy"
-          decoding="async"
-        />
-        <figcaption class="caption">CREATE Tower, National University of Singapore.</figcaption>
-      </figure>
     </div>
-    <div class="sheet-wrap">
-      <Scallop />
-      <div class="sheet">
-        <h3 class="school">{record.school}</h3>
-        <p class="degree">{record.degree}</p>
-        {
-          record.groups.map((g) => (
-            <div class="group">
-              <h4>{g.name}</h4>
-              <ul>
-                {g.items.map((it) => (
-                  <li>
-                    <div class="line">
-                      <span class="left">{it.left}</span>
-                      <span class="right num">{it.right}</span>
-                    </div>
-                    {it.note && <p class="note small">{it.note}</p>}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))
-        }
-        <div class="closing">
-          {record.closing.map((l) => <p>{l}</p>)}
-        </div>
-      </div>
-      <Scallop flip />
+    <div class="ledger">
+      {
+        record.groups.map((g) => (
+          <div class="group">
+            <h3>{g.name}</h3>
+            <ul>
+              {g.items.map((it) => (
+                <li>
+                  <div class="line">
+                    <span class="left">{it.left}</span>
+                    <span class="right num muted">{it.right}</span>
+                  </div>
+                  {it.note && <p class="note small muted">{it.note}</p>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
     </div>
   </div>
 </section>
 
 <style>
   .education {
-    padding: clamp(96px, 12vw, 180px) var(--margin);
-    background: var(--ground);
-    color: var(--on-ground);
-  }
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: var(--gutter);
-    row-gap: 48px;
+    background: var(--bg-2);
   }
   .side {
     grid-column: 1 / span 5;
     position: sticky;
-    top: 48px;
+    top: 96px;
     align-self: start;
-  }
-  .side h2 {
-    font-size: var(--step-head);
-    line-height: 0.9;
-    letter-spacing: -0.02em;
-    max-width: 14ch;
   }
   .side .lead {
     margin-top: 24px;
-    max-width: 34ch;
+    max-width: 30ch;
   }
   .side .button {
     margin-top: 32px;
-    --tab: var(--paper);
-    --on-tab: var(--ink);
   }
-  .campus {
-    margin: 48px 0 0;
-    aspect-ratio: 4 / 3;
-    --quiet: var(--on-ground-muted);
-  }
-  .campus :global(picture),
-  .campus :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .campus .caption {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: 0;
-    padding: 6px 10px;
-    color: #f2ebdc;
-    background: rgba(20, 24, 40, 0.55);
-  }
-  .sheet-wrap {
+  .ledger {
     grid-column: 7 / span 6;
-    --sheet: var(--paper);
   }
-  .sheet {
-    background: var(--paper);
-    color: var(--ink);
-    padding: 48px 64px;
-    text-align: center;
-  }
-  .school {
-    font-size: 2.75rem;
-    line-height: 0.95;
-  }
-  .degree {
-    margin: 14px auto 0;
-    font-size: var(--step-small);
-    color: var(--muted);
-    max-width: 40ch;
-  }
-  .group {
+  .group + .group {
     margin-top: 56px;
-    text-align: left;
   }
-  .group h4 {
-    margin: 0;
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: 1.5rem;
-    text-align: center;
+  h3 {
+    font-size: var(--step-lead);
+    margin-bottom: 18px;
   }
-  .group ul {
+  ul {
     list-style: none;
-    margin: 20px 0 0;
+    margin: 0;
     padding: 0;
   }
-  .group li + li {
-    margin-top: 16px;
+  li + li {
+    margin-top: 14px;
   }
   .line {
     display: flex;
     justify-content: space-between;
     gap: 24px;
     align-items: baseline;
+    font-weight: 500;
   }
   .left {
-    max-width: 30ch;
+    max-width: 34ch;
   }
   .right {
     flex: none;
-    text-align: right;
-    color: var(--ink);
   }
   .note {
     margin-top: 4px;
-    color: var(--muted);
-    max-width: 44ch;
-  }
-  .closing {
-    margin-top: 56px;
-    text-align: center;
-  }
-  .closing p {
-    margin: 0 auto;
+    max-width: 48ch;
   }
   @media (max-width: 1023px) {
     .side {
       grid-column: 1 / -1;
       position: static;
     }
-    .sheet-wrap {
+    .ledger {
       grid-column: 1 / -1;
-    }
-  }
-  @media (max-width: 767px) {
-    .sheet {
-      padding: 28px 20px;
-    }
-    .school {
-      font-size: 2.25rem;
-    }
-    .group {
-      margin-top: 40px;
-    }
-    .left {
-      max-width: none;
+      margin-top: 56px;
     }
   }
 </style>

@@ -1,0 +1,360 @@
+---
+import { Picture, getImage } from 'astro:assets';
+import { site, stage } from '../data/content';
+import mg from '../assets/ui/medgraph-timeline.png';
+import isMap from '../assets/cut/is-map.png';
+import cityPoster from '../assets/posters/hf1_city.jpg';
+import trenchPoster from '../assets/posters/hf2_trench.jpg';
+import mgDiabetes from '../assets/cut/mg-diabetes.png';
+import mgMetformin from '../assets/cut/mg-metformin.png';
+import mgHba1c from '../assets/cut/mg-hba1c.png';
+import mgReview from '../assets/cut/mg-review.png';
+import mgAllergy from '../assets/cut/mg-allergy.png';
+import mgVisit from '../assets/cut/mg-visit.png';
+import isSavings from '../assets/cut/is-savings.png';
+import isPill from '../assets/cut/is-pill-water.png';
+import isBarWater from '../assets/cut/is-bar-water.png';
+import isBarFiber from '../assets/cut/is-bar-fiber.png';
+import isLegend from '../assets/cut/is-legend.png';
+import isLive from '../assets/cut/is-live.png';
+
+// Chips are decorative repeats of the interface; the screenshot carries the alt text.
+const mgChips = [
+  { src: mgDiabetes, cls: 'c1' },
+  { src: mgMetformin, cls: 'c2' },
+  { src: mgHba1c, cls: 'c3' },
+  { src: mgReview, cls: 'c4' },
+  { src: mgAllergy, cls: 'c5' },
+  { src: mgVisit, cls: 'c6' },
+];
+const isChips = [
+  { src: isSavings, cls: 'c1' },
+  { src: isPill, cls: 'c2' },
+  { src: isBarWater, cls: 'c3' },
+  { src: isBarFiber, cls: 'c4' },
+  { src: isLegend, cls: 'c5' },
+  { src: isLive, cls: 'c6' },
+];
+const { medigraph: m, infrasync: s } = stage;
+// Posters and chips as WebP (chips keep their alpha).
+const cityWebp = await getImage({ src: cityPoster, width: 1280, format: 'webp', quality: 70 });
+const trenchWebp = await getImage({ src: trenchPoster, width: 1280, format: 'webp', quality: 70 });
+const mgChipImgs = await Promise.all(mgChips.map(async (c) => ({ ...c, img: await getImage({ src: c.src, format: 'webp', quality: 82 }) })));
+const isChipImgs = await Promise.all(isChips.map(async (c) => ({ ...c, img: await getImage({ src: c.src, format: 'webp', quality: 82 }) })));
+---
+
+<div class="stage" id="stage">
+  <div class="pin">
+    <section class="layer layer-hero" aria-labelledby="name">
+      <img class="film poster" src={cityWebp.src} width={cityWebp.attributes.width} height={cityWebp.attributes.height} alt="" fetchpriority="high" decoding="async" />
+      <video class="film" autoplay muted loop playsinline preload="metadata" poster={cityWebp.src} aria-hidden="true" tabindex="-1">
+        <source src="/clips/hf1_city-m.mp4" type="video/mp4" media="(max-width: 767px)" />
+        <source src="/clips/hf1_city.mp4" type="video/mp4" />
+      </video>
+      <div class="scrim bottom"></div>
+      <div class="hero-text">
+        <h1 id="name" class="display">Kenil Gandhi</h1>
+        <p class="lead">{stage.tagline}</p>
+        <div class="actions">
+          <a class="button" href={site.resume} download>Download resume<span class="sr-only"> (PDF)</span></a>
+          <a class="button ghost" href="#work">See the work</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="layer layer-mg" id="work" aria-labelledby="mg-title">
+      <div class="shot shot-mg rounded">
+        <Picture
+          src={mg}
+          widths={[640, 960, 1400, 2000]}
+          sizes="(min-width: 1024px) 62vw, 100vw"
+          formats={['avif', 'webp']}
+          alt="The MediGraph timeline: visits in rows by date, each with chips for the diagnosis, medication change, test and follow-up it produced, and a panel of current medications and conditions on the right."
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+      {mgChipImgs.map((c) => <img class={`chip ${c.cls}`} src={c.img.src} width={c.src.width / 2} height={c.src.height / 2} alt="" aria-hidden="true" loading="lazy" decoding="async" />)}
+      <div class="copy copy-mg">
+        <h2 id="mg-title" class="head reveal">{m.name}</h2>
+        <p class="lead statement reveal">{m.statement}</p>
+        {m.beats.map((b) => <p class="beat reveal">{b}</p>)}
+        <p class="small muted meta reveal">{m.meta}</p>
+      </div>
+    </section>
+
+    <section class="layer layer-is" aria-labelledby="is-title">
+      <div class="film-wrap">
+        <video class="film" muted loop playsinline preload="none" poster={trenchWebp.src} aria-hidden="true" tabindex="-1">
+          <source src="/clips/hf2_trench-m.mp4" type="video/mp4" media="(max-width: 767px)" />
+          <source src="/clips/hf2_trench.mp4" type="video/mp4" />
+        </video>
+        <div class="scrim full"></div>
+      </div>
+      <p class="dig display" aria-label="Same street, dug twice. Dig once.">
+        <span class="line l1">{s.lines[0]}</span>
+        <span class="line l2">{s.lines[1]}</span>
+        <span class="line l3">{s.lines[2]}</span>
+      </p>
+      <div class="shot shot-map rounded">
+        <Picture
+          src={isMap}
+          widths={[640, 960, 1400, 1876]}
+          sizes="(min-width: 1024px) 58vw, 100vw"
+          formats={['avif', 'webp']}
+          alt="InfraSync's district map of Manhattan streets with coloured segments: purple where works share a trench, blue where work is active, and a legend of right-of-way layers."
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      {isChipImgs.map((c) => <img class={`chip ${c.cls}`} src={c.img.src} width={c.src.width / 2} height={c.src.height / 2} alt="" aria-hidden="true" loading="lazy" decoding="async" />)}
+      <div class="copy copy-is">
+        <h2 id="is-title" class="head reveal">{s.name}</h2>
+        {s.beats.map((b) => <p class="beat reveal">{b}</p>)}
+        <p class="small muted meta reveal">{s.meta}</p>
+      </div>
+    </section>
+  </div>
+</div>
+
+<style>
+  /* ---------- Static layout: every layer is an ordinary full section ---------- */
+  .layer {
+    position: relative;
+    min-height: 100svh;
+    padding: 120px var(--margin) 96px;
+    display: grid;
+    align-content: center;
+    gap: 32px;
+  }
+  .layer-hero .poster {
+    z-index: 0;
+  }
+  .layer-hero video {
+    z-index: 0;
+  }
+  .layer-hero {
+    overflow: hidden;
+    padding-bottom: 72px;
+    align-content: end;
+  }
+  .hero-text {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+  }
+  .hero-text .lead {
+    margin-top: 24px;
+    max-width: 34ch;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+  .display {
+    margin-left: -0.04em;
+  }
+
+  .layer-mg,
+  .layer-is {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    align-items: center;
+  }
+  .shot-mg {
+    grid-column: 1 / span 7;
+  }
+  .copy {
+    grid-column: 8 / span 5;
+  }
+  .copy .head {
+    margin-bottom: 20px;
+  }
+  .statement {
+    margin-bottom: 20px;
+  }
+  .beat {
+    margin-top: 14px;
+    max-width: 44ch;
+  }
+  .meta {
+    margin-top: 22px;
+    max-width: 48ch;
+  }
+  .layer-is .film-wrap {
+    display: none;
+  }
+  .dig {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: 0.05em;
+    max-width: none;
+    font-size: clamp(2.75rem, 9vw, 8rem);
+  }
+  .dig .line {
+    display: block;
+  }
+  .shot-map {
+    grid-column: 1 / span 7;
+  }
+  .copy-is {
+    grid-column: 8 / span 5;
+  }
+  .chip {
+    display: none;
+  }
+  @media (max-width: 1023px) {
+    .shot-mg,
+    .shot-map,
+    .copy,
+    .copy-is {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* ---------- Motion layout: layers stack on one pinned stage ---------- */
+  :global(html.motion) .stage {
+    position: relative;
+  }
+  :global(html.motion) .pin {
+    position: relative;
+    height: 100svh;
+    overflow: hidden;
+    perspective: 1400px;
+  }
+  :global(html.motion) .layer {
+    position: absolute;
+    inset: 0;
+    min-height: 0;
+    display: block;
+    padding: 0;
+  }
+  :global(html.motion) .layer-mg,
+  :global(html.motion) .layer-is {
+    visibility: hidden;
+    opacity: 0;
+  }
+  :global(html.motion) .layer-hero .hero-text {
+    position: absolute;
+    left: var(--margin);
+    right: var(--margin);
+    bottom: clamp(48px, 8vh, 96px);
+  }
+  :global(html.motion) .shot-mg {
+    position: absolute;
+    left: var(--margin);
+    top: 50%;
+    width: min(62vw, 1100px);
+    transform: translateY(-50%);
+    transform-origin: 50% 100%;
+    will-change: transform;
+  }
+  :global(html.motion) .copy {
+    position: absolute;
+    right: var(--margin);
+    top: 50%;
+    transform: translateY(-50%);
+    width: min(34vw, 520px);
+  }
+  :global(html.motion) .copy .reveal {
+    opacity: 0;
+    visibility: hidden;
+  }
+  :global(html.motion) .chip {
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+    will-change: transform;
+  }
+  /* Resting places of the MediGraph chips, around the screenshot */
+  :global(html.motion) .layer-mg .c1 { left: 3vw; top: 14vh; width: min(22vw, 400px); }
+  :global(html.motion) .layer-mg .c2 { left: 34vw; top: 8vh; width: min(22vw, 400px); }
+  :global(html.motion) .layer-mg .c3 { left: 46vw; top: 30vh; width: min(13vw, 270px); }
+  :global(html.motion) .layer-mg .c4 { left: 44vw; bottom: 9vh; width: min(21vw, 390px); }
+  :global(html.motion) .layer-mg .c5 { left: 6vw; bottom: 12vh; width: min(23vw, 420px); }
+  :global(html.motion) .layer-mg .c6 { left: 26vw; bottom: 4vh; width: min(20vw, 370px); }
+
+  :global(html.motion) .layer-is .film-wrap {
+    display: block;
+    position: absolute;
+    inset: 0;
+    will-change: clip-path;
+  }
+  :global(html.motion) .dig {
+    position: absolute;
+    left: var(--margin);
+    top: 50%;
+    transform: translateY(-50%);
+    transform-origin: left top;
+    display: block;
+    font-size: clamp(3rem, 11vw, 11rem);
+    line-height: 0.9;
+    will-change: transform;
+  }
+  :global(html.motion) .dig .line {
+    opacity: 0;
+    visibility: hidden;
+  }
+  :global(html.motion) .dig .l3 {
+    position: absolute;
+    left: 0;
+    top: 1.0em;
+    color: var(--accent);
+  }
+  :global(html.motion) .shot-map {
+    position: absolute;
+    left: var(--margin);
+    top: 52%;
+    width: min(58vw, 1040px);
+    transform: translateY(-50%);
+    will-change: transform;
+  }
+  :global(html.motion) .layer-is .c1 { left: 4vw; top: 16vh; width: min(22vw, 430px); }
+  :global(html.motion) .layer-is .c2 { left: 48vw; top: 20vh; width: min(7vw, 130px); }
+  :global(html.motion) .layer-is .c3 { left: 36vw; top: 10vh; width: min(7vw, 120px); }
+  :global(html.motion) .layer-is .c4 { left: 44vw; top: 11vh; width: min(4.5vw, 72px); }
+  :global(html.motion) .layer-is .c5 { left: 42vw; bottom: 6vh; width: min(14vw, 360px); }
+  :global(html.motion) .layer-is .c6 { left: 6vw; bottom: 10vh; width: min(12vw, 220px); }
+
+  @media (max-width: 767px) {
+    :global(html.motion) .shot-mg,
+    :global(html.motion) .shot-map {
+      left: var(--margin);
+      right: var(--margin);
+      width: auto;
+      top: 12vh;
+      transform: none;
+    }
+    :global(html.motion) .copy {
+      left: var(--margin);
+      right: var(--margin);
+      width: auto;
+      top: auto;
+      bottom: 6vh;
+      transform: none;
+    }
+    :global(html.motion) .copy .beat:nth-of-type(n + 3),
+    :global(html.motion) .copy .statement {
+      display: none;
+    }
+    :global(html.motion) .layer-mg .c2,
+    :global(html.motion) .layer-mg .c4,
+    :global(html.motion) .layer-mg .c6,
+    :global(html.motion) .layer-is .c3,
+    :global(html.motion) .layer-is .c4,
+    :global(html.motion) .layer-is .c5 {
+      display: none;
+    }
+    :global(html.motion) .layer-mg .c1 { left: 4vw; top: 6vh; width: 56vw; }
+    :global(html.motion) .layer-mg .c3 { left: 60vw; top: 40vh; width: 36vw; }
+    :global(html.motion) .layer-mg .c5 { left: 8vw; top: 44vh; width: 60vw; }
+    :global(html.motion) .layer-is .c1 { left: 4vw; top: 6vh; width: 64vw; }
+    :global(html.motion) .layer-is .c2 { left: 76vw; top: 40vh; width: 18vw; }
+    :global(html.motion) .layer-is .c6 { left: 6vw; top: 46vh; width: 40vw; }
+    :global(html.motion) .dig {
+      top: 40%;
+    }
+  }
+</style>

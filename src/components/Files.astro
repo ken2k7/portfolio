@@ -1,0 +1,84 @@
+---
+import { workFiles } from '../data/content';
+import FigKgisl from './figures/FigKgisl.astro';
+import FigKenbot from './figures/FigKenbot.astro';
+const kgisl = workFiles.find((w) => w.id === 'kgisl')!;
+const kenbot = workFiles.find((w) => w.id === 'kenbot')!;
+---
+
+<section class="section files" aria-labelledby="files-title">
+  <h2 id="files-title" class="head">Also on file</h2>
+  <div class="two">
+    <article aria-labelledby="kgisl-title">
+      <div class="fig"><FigKgisl /></div>
+      <h3 id="kgisl-title">{kgisl.name}</h3>
+      <p class="muted">{kgisl.kind}</p>
+      <ul>
+        {kgisl.points.map((p) => <li>{p}</li>)}
+      </ul>
+    </article>
+    <article aria-labelledby="kenbot-title">
+      <div class="fig"><FigKenbot /></div>
+      <h3 id="kenbot-title">{kenbot.name}</h3>
+      <p class="muted">{kenbot.kind}</p>
+      <p>{kenbot.summary} {kenbot.points[0]}</p>
+      <p class="links">
+        {kenbot.links!.map((l) => (
+          <a href={l.href} target="_blank" rel="noopener noreferrer">
+            {l.label}
+            <span class="sr-only"> (opens in a new tab)</span>
+          </a>
+        ))}
+      </p>
+    </article>
+  </div>
+</section>
+
+<style>
+  .files {
+    background: var(--bg);
+  }
+  .two {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(32px, 5vw, 80px);
+  }
+  .fig {
+    --fig-ink: var(--ink);
+    --fig-bg: var(--bg);
+    background: var(--bg-2);
+    padding: 24px;
+    margin-bottom: 28px;
+  }
+  h3 {
+    font-size: var(--step-lead);
+  }
+  article:last-child .fig {
+    --fig-ink: var(--accent);
+  }
+  article .muted {
+    margin-top: 6px;
+  }
+  ul {
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  li + li {
+    margin-top: 0.7em;
+  }
+  article > p {
+    margin-top: 18px;
+  }
+  .links {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 767px) {
+    .two {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

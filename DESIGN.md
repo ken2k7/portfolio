@@ -53,3 +53,27 @@ Motion layer:
 
 Measured after this round: Lighthouse 99 mobile, 100 desktop. The mobile drop to 80 before gating the
 shader (810 ms blocking) is why the shader waits for load and skips touch devices.
+
+## Round 4: "Dig once." One continuous dark stage (1 Nov 2026)
+
+Kenil called the case-file version chunky and the Commons photographs not what he meant. He wants an
+award-level flowing site built from his own products as graphics. Direction now:
+
+- Palette from the products: InfraSync's near-black ground (#0b0d12), one lime accent (#b8f03a). Purple,
+  pink and blue appear only inside the real interface pieces. Dark by nature; no light mode.
+- One family, Schibsted Grotesk 800/500/400, self-hosted.
+- The first three chapters are one GSAP ScrollTrigger scene pinned for ~8.5 viewports: the city clip and
+  the name; the MediGraph timeline (a 2x screenshot of the running app) rising in perspective while six
+  chips cut from the same screenshot fly out to rest around it; three beats of copy; the trench clip
+  wiping in; "Same street. Dug twice." becoming "Dig once." (Kenil's own line from the InfraSync demo);
+  the InfraSync map cut-out rising with its Gantt bars, co-trench pill, savings chip and legend.
+- Cut-outs are made by `scripts/cutouts.mjs` from DOM-measured rectangles in the running apps, with
+  rounded alpha masks. Clips are Kenil's Higgsfield-generated shots from the InfraSync demo, re-encoded
+  at 1280 and 720 wide. Everything else (Also on file, About with a Doha-to-Singapore line, Skills as
+  large type, Education ledger, Write to me) flows beneath in the same system.
+- Without JavaScript or with reduced motion, the stage layers render as ordinary stacked sections.
+
+Measured: Lighthouse 97 mobile, 100 desktop. LCP is the name. Weight on mobile 611 KiB.
+Known gaps: no true rotoscoped cut-out of the excavator (the ML background-removal install failed on this
+Mac), so the film stays as masked video layers. The InfraSync diagnosis and Gantt states exist as 1080p
+video frames in src/assets/ui but are not yet placed.
