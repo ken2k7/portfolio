@@ -51,19 +51,19 @@ const jsonLd = {
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
-    <a href="#stage" class="skip">Skip to content</a>
+    <a href="#contents" class="skip">Skip to content</a>
     <header class="topbar">
-      <a href="#stage" class="mark" data-mark>Kenil Gandhi</a>
+      <a href="#top" class="mark" data-mark>Kenil Gandhi</a>
       <nav aria-label="Primary">
         <ul>
-          <li><a href="#work">Work</a></li>
+          <li><a href="#projects">Projects</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#contact">Contact</a></li>
           <li><a href={site.resume} download>Resume</a></li>
         </ul>
       </nav>
     </header>
-    <main>
+    <main id="top">
       <slot />
     </main>
     <slot name="footer" />

@@ -1,0 +1,52 @@
+---
+import { getImage } from 'astro:assets';
+import { site, stage } from '../data/content';
+import cityPoster from '../assets/posters/hf1_city.jpg';
+const cityWebp = await getImage({ src: cityPoster, width: 1280, format: 'webp', quality: 70 });
+---
+
+<section class="hero" aria-labelledby="name">
+  <img class="film poster" src={cityWebp.src} width={cityWebp.attributes.width} height={cityWebp.attributes.height} alt="" fetchpriority="high" decoding="async" />
+  <video class="film" autoplay muted loop playsinline preload="metadata" poster={cityWebp.src} aria-hidden="true" tabindex="-1">
+    <source src="/clips/hf1_city-m.mp4" type="video/mp4" media="(max-width: 767px)" />
+    <source src="/clips/hf1_city.mp4" type="video/mp4" />
+  </video>
+  <div class="scrim bottom"></div>
+  <div class="hero-text">
+    <h1 id="name" class="display">Kenil Gandhi</h1>
+    <p class="lead">{stage.tagline}</p>
+    <div class="actions">
+      <a class="button" href={site.resume} download>Download resume<span class="sr-only"> (PDF)</span></a>
+      <a class="button ghost" href="#contents">What's here</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    overflow: hidden;
+    display: grid;
+    align-content: end;
+    padding: 120px var(--margin) clamp(48px, 8vh, 96px);
+  }
+  .hero-text {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+  }
+  .display {
+    margin-left: -0.04em;
+  }
+  .hero-text .lead {
+    margin-top: 24px;
+    max-width: 34ch;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+</style>

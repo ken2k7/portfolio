@@ -3,7 +3,6 @@ import { Picture, getImage } from 'astro:assets';
 import { site, stage } from '../data/content';
 import mg from '../assets/ui/medgraph-timeline.png';
 import isMap from '../assets/cut/is-map.png';
-import cityPoster from '../assets/posters/hf1_city.jpg';
 import trenchPoster from '../assets/posters/hf2_trench.jpg';
 import mgDiabetes from '../assets/cut/mg-diabetes.png';
 import mgMetformin from '../assets/cut/mg-metformin.png';
@@ -37,32 +36,19 @@ const isChips = [
 ];
 const { medigraph: m, infrasync: s } = stage;
 // Posters and chips as WebP (chips keep their alpha).
-const cityWebp = await getImage({ src: cityPoster, width: 1280, format: 'webp', quality: 70 });
 const trenchWebp = await getImage({ src: trenchPoster, width: 1280, format: 'webp', quality: 70 });
 const mgChipImgs = await Promise.all(mgChips.map(async (c) => ({ ...c, img: await getImage({ src: c.src, format: 'webp', quality: 82 }) })));
 const isChipImgs = await Promise.all(isChips.map(async (c) => ({ ...c, img: await getImage({ src: c.src, format: 'webp', quality: 82 }) })));
 ---
 
+<section id="projects" class="projects" aria-labelledby="projects-title">
+  <div class="projects-head section">
+    <h2 id="projects-title" class="head">Projects</h2>
+    <p class="lead muted">Two products, shown with their own interfaces. Scroll through, or skip ahead with the links above.</p>
+  </div>
 <div class="stage" id="stage">
   <div class="pin">
-    <section class="layer layer-hero" aria-labelledby="name">
-      <img class="film poster" src={cityWebp.src} width={cityWebp.attributes.width} height={cityWebp.attributes.height} alt="" fetchpriority="high" decoding="async" />
-      <video class="film" autoplay muted loop playsinline preload="metadata" poster={cityWebp.src} aria-hidden="true" tabindex="-1">
-        <source src="/clips/hf1_city-m.mp4" type="video/mp4" media="(max-width: 767px)" />
-        <source src="/clips/hf1_city.mp4" type="video/mp4" />
-      </video>
-      <div class="scrim bottom"></div>
-      <div class="hero-text">
-        <h1 id="name" class="display">Kenil Gandhi</h1>
-        <p class="lead">{stage.tagline}</p>
-        <div class="actions">
-          <a class="button" href={site.resume} download>Download resume<span class="sr-only"> (PDF)</span></a>
-          <a class="button ghost" href="#work">See the work</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="layer layer-mg" id="work" aria-labelledby="mg-title">
+    <section class="layer layer-mg" id="medigraph" aria-labelledby="mg-title">
       <div class="shot shot-mg rounded">
         <Picture
           src={mg}
@@ -116,8 +102,16 @@ const isChipImgs = await Promise.all(isChips.map(async (c) => ({ ...c, img: awai
     </section>
   </div>
 </div>
+</section>
 
 <style>
+  .projects-head {
+    background: var(--bg-2);
+    padding-bottom: clamp(48px, 6vw, 96px);
+  }
+  .projects-head .lead {
+    margin-top: 20px;
+  }
   /* ---------- Static layout: every layer is an ordinary full section ---------- */
   .layer {
     position: relative;
@@ -126,32 +120,6 @@ const isChipImgs = await Promise.all(isChips.map(async (c) => ({ ...c, img: awai
     display: grid;
     align-content: center;
     gap: 32px;
-  }
-  .layer-hero .poster {
-    z-index: 0;
-  }
-  .layer-hero video {
-    z-index: 0;
-  }
-  .layer-hero {
-    overflow: hidden;
-    padding-bottom: 72px;
-    align-content: end;
-  }
-  .hero-text {
-    position: relative;
-    z-index: 1;
-    max-width: 1400px;
-  }
-  .hero-text .lead {
-    margin-top: 24px;
-    max-width: 34ch;
-  }
-  .actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 32px;
   }
   .display {
     margin-left: -0.04em;
@@ -231,16 +199,9 @@ const isChipImgs = await Promise.all(isChips.map(async (c) => ({ ...c, img: awai
     display: block;
     padding: 0;
   }
-  :global(html.motion) .layer-mg,
   :global(html.motion) .layer-is {
     visibility: hidden;
     opacity: 0;
-  }
-  :global(html.motion) .layer-hero .hero-text {
-    position: absolute;
-    left: var(--margin);
-    right: var(--margin);
-    bottom: clamp(48px, 8vh, 96px);
   }
   :global(html.motion) .shot-mg {
     position: absolute;

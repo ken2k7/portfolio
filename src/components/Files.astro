@@ -9,7 +9,7 @@ const kenbot = workFiles.find((w) => w.id === 'kenbot')!;
 <section class="section files" aria-labelledby="files-title">
   <h2 id="files-title" class="head">Also on file</h2>
   <div class="two">
-    <article aria-labelledby="kgisl-title">
+    <article id="kgisl" aria-labelledby="kgisl-title">
       <div class="fig"><FigKgisl /></div>
       <h3 id="kgisl-title">{kgisl.name}</h3>
       <p class="muted">{kgisl.kind}</p>
@@ -17,7 +17,7 @@ const kenbot = workFiles.find((w) => w.id === 'kenbot')!;
         {kgisl.points.map((p) => <li>{p}</li>)}
       </ul>
     </article>
-    <article aria-labelledby="kenbot-title">
+    <article id="kenbot" aria-labelledby="kenbot-title">
       <div class="fig"><FigKenbot /></div>
       <h3 id="kenbot-title">{kenbot.name}</h3>
       <p class="muted">{kenbot.kind}</p>

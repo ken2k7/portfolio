@@ -1,0 +1,104 @@
+---
+import { getImage } from 'astro:assets';
+import mgDiabetes from '../assets/cut/mg-diabetes.png';
+import isSavings from '../assets/cut/is-savings.png';
+const chipA = await getImage({ src: mgDiabetes, format: 'webp', quality: 82 });
+const chipB = await getImage({ src: isSavings, format: 'webp', quality: 82 });
+
+const rows = [
+  { href: '#medigraph', title: 'MediGraph', note: 'A patient history you can walk, every fact tied to its source.', chip: chipA, w: mgDiabetes.width / 2, h: mgDiabetes.height / 2 },
+  { href: '#infrasync', title: 'InfraSync', note: 'A city’s works on one schedule, so a street is dug once.', chip: chipB, w: isSavings.width / 2, h: isSavings.height / 2 },
+  { href: '#kgisl', title: 'KGiSL', note: 'Software engineering intern, AI and data, summer 2026.' },
+  { href: '#kenbot', title: 'Kenbot', note: 'A Java chatbot with 193 tests and CI on three systems.' },
+  { href: '#about', title: 'About', note: 'From Qatar, in Singapore, second year at NUS.' },
+  { href: '#skills', title: 'Skills', note: 'Languages, frameworks, AI and optimisation, design tools.' },
+  { href: '#education', title: 'Education and activities', note: 'Coursework, CS50, debate, Model UN, awards.' },
+  { href: '#contact', title: 'Contact', note: 'Email, LinkedIn, GitHub, resume.' },
+];
+---
+
+<section id="contents" class="index section" aria-labelledby="contents-title">
+  <h2 id="contents-title" class="sr-only">Contents</h2>
+  <ul>
+    {
+      rows.map((r) => (
+        <li>
+          <a href={r.href} class="row">
+            <span class="title">{r.title}</span>
+            <span class="note">{r.note}</span>
+            {r.chip && <img class="mini" src={r.chip.src} width={r.w} height={r.h} alt="" aria-hidden="true" loading="lazy" decoding="async" />}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .index {
+    background: var(--bg);
+    padding-top: clamp(64px, 8vw, 120px);
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr) minmax(0, 1fr);
+    align-items: center;
+    column-gap: var(--gutter);
+    padding: 18px var(--margin);
+    margin: 0 calc(-1 * var(--margin));
+    text-decoration: none;
+    transition: background-color 0.25s ease;
+  }
+  .row:hover,
+  .row:focus-visible {
+    background: var(--surface);
+  }
+  .title {
+    font-weight: 800;
+    font-size: clamp(2rem, 1rem + 5vw, 5.5rem);
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+  }
+  .row:hover .title {
+    color: var(--accent);
+  }
+  .note {
+    color: var(--muted);
+    font-size: var(--step-body);
+    max-width: 34ch;
+  }
+  .mini {
+    justify-self: end;
+    width: min(100%, 220px);
+    height: auto;
+    opacity: 0;
+    transform: translateX(16px);
+    transition: opacity 0.3s ease, transform 0.4s var(--ease-out);
+  }
+  .row:hover .mini,
+  .row:focus-visible .mini {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mini {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @media (max-width: 767px) {
+    .row {
+      grid-template-columns: 1fr;
+      row-gap: 6px;
+      padding: 16px var(--margin);
+    }
+    .mini {
+      display: none;
+    }
+  }
+</style>
