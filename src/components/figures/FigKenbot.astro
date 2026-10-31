@@ -1,0 +1,41 @@
+---
+// 193 tests, drawn one square each, and the three operating systems the CI runs them on.
+const total = 193;
+const cols = 24;
+const size = 18;
+const gap = 6;
+const cells = Array.from({ length: total }, (_, i) => ({
+  x: 40 + (i % cols) * (size + gap),
+  y: 70 + Math.floor(i / cols) * (size + gap),
+}));
+const os = ['Ubuntu', 'macOS', 'Windows'];
+---
+
+<svg viewBox="0 0 800 500" role="img" aria-labelledby="fig-kenbot-title fig-kenbot-desc" class="fig">
+  <title id="fig-kenbot-title">Kenbot test suite</title>
+  <desc id="fig-kenbot-desc">193 squares, one per JUnit test, and three bars for the CI runs on Ubuntu, macOS and Windows.</desc>
+  <text x="40" y="44" font-family="var(--font-text)" font-size="22" fill="currentColor">193 JUnit tests</text>
+  <g fill="currentColor">
+    {cells.map((c) => <rect x={c.x} y={c.y} width={size} height={size} />)}
+  </g>
+  <text x="40" y="330" font-family="var(--font-text)" font-size="22" fill="currentColor">Run on every push, on three systems</text>
+  <g>
+    {os.map((o, i) => (
+      <>
+        <rect x="40" y={352 + i * 44} width="616" height="32" fill="currentColor" />
+        <text x="56" y={368 + i * 44} font-family="var(--font-text)" font-size="20" fill="var(--fig-bg)" dominant-baseline="central">
+          {o}
+        </text>
+      </>
+    ))}
+  </g>
+</svg>
+
+<style>
+  .fig {
+    display: block;
+    width: 100%;
+    height: auto;
+    color: var(--fig-ink);
+  }
+</style>

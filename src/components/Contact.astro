@@ -1,33 +1,107 @@
 ---
-import { site } from '../data/content';
-import ExternalIcon from './ExternalIcon.astro';
+import { site, contact } from '../data/content';
+import Scallop from './Scallop.astro';
+const year = new Date().getFullYear();
 ---
 
-<section id="contact" aria-labelledby="contact-title" class="border-t rule">
-  <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28 lg:py-32">
-    <p class="reveal label">07 — Contact</p>
-    <h2 id="contact-title" class="reveal font-display mt-4 max-w-4xl text-[clamp(2.5rem,7vw,5.5rem)] leading-[0.98] tracking-[-0.02em]">
-      Say hello. The fastest way to reach me is <em class="text-accent">email</em>.
-    </h2>
-    <div class="reveal mt-10 flex flex-col gap-6 sm:flex-row sm:flex-wrap sm:items-center" style="--reveal-delay: 120ms">
-      <a href={`mailto:${site.email}`} class="btn btn-primary">
-        {site.email}
-      </a>
-      <ul class="flex flex-wrap items-center gap-x-6 gap-y-3">
+<footer id="contact" class="curtain back" aria-labelledby="contact-title">
+  <div class="panel-wrap">
+    <Scallop flip class="cut" />
+    <div class="panel">
+      <div class="left">
+        <h2 id="contact-title">Contact</h2>
+        <p class="message">{contact.message}</p>
+        <a class="top" href="#top">Back to the top</a>
+      </div>
+      <ul class="address">
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
         <li>
-          <a href={site.linkedin} class="link inline-flex items-center gap-1" target="_blank" rel="noopener noreferrer">
-            LinkedIn <ExternalIcon /><span class="sr-only">(opens in a new tab)</span>
-          </a>
+          <a href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
         </li>
         <li>
-          <a href={site.github} class="link inline-flex items-center gap-1" target="_blank" rel="noopener noreferrer">
-            GitHub <ExternalIcon /><span class="sr-only">(opens in a new tab)</span>
-          </a>
+          <a href={site.github} target="_blank" rel="noopener noreferrer">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
         </li>
-        <li>
-          <a href={site.resume} download class="link">Download resume <span class="sr-only">(PDF)</span></a>
-        </li>
+        <li><a href={site.resume} download>Resume, PDF</a></li>
       </ul>
+      <p class="imprint small">&copy; {year} Kenil Gandhi</p>
     </div>
   </div>
-</section>
+</footer>
+
+<style>
+  .back {
+    background: var(--paper);
+    color: var(--ink);
+    padding: 120px var(--margin) 0;
+  }
+  .panel-wrap {
+    width: min(1100px, 100%);
+    margin: 0 auto;
+    --sheet: var(--paper);
+  }
+  .cut {
+    position: relative;
+    z-index: 1;
+    margin-bottom: -16px;
+  }
+  .panel {
+    position: relative;
+    background: var(--ground);
+    color: var(--on-ground);
+    min-height: 420px;
+    padding: 48px 56px 56px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 48px;
+    row-gap: 48px;
+  }
+  h2 {
+    font-size: 2rem;
+    line-height: 1;
+  }
+  .message {
+    margin-top: 20px;
+    max-width: 34ch;
+  }
+  .top {
+    display: inline-block;
+    margin-top: 32px;
+  }
+  .address {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    justify-self: end;
+    text-align: right;
+    font-size: var(--step-lead);
+    line-height: 1.3;
+  }
+  .address li + li {
+    margin-top: 12px;
+  }
+  .address a {
+    overflow-wrap: anywhere;
+  }
+  .imprint {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--on-ground-muted);
+    max-width: none;
+    align-self: end;
+  }
+  @media (max-width: 767px) {
+    .back {
+      padding-top: 72px;
+    }
+    .panel {
+      grid-template-columns: 1fr;
+      padding: 32px 20px 40px;
+      row-gap: 32px;
+      min-height: 0;
+    }
+    .address {
+      justify-self: start;
+      text-align: left;
+    }
+  }
+</style>

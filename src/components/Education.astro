@@ -1,35 +1,166 @@
 ---
-import Section from './Section.astro';
-import { education, learning } from '../data/content';
+import { site, record } from '../data/content';
+import Scallop from './Scallop.astro';
 ---
 
-<Section id="education" number="05 — Education" title="Study and learning.">
-  <div class="reveal">
-    <p class="label">{education.when}</p>
-    <h3 class="font-display mt-3 text-3xl leading-tight">{education.school}</h3>
-    <p class="mt-1 text-ink-soft">{education.degree}</p>
-
-    <h4 class="label mt-8">Coursework</h4>
-    <ul class="mt-3 grid gap-x-8 gap-y-2 sm:grid-cols-2">
-      {
-        education.coursework.map((c) => (
-          <li class="flex items-baseline gap-3 border-b rule py-2 text-[0.9375rem]">
-            <span class="ledger w-[4.75rem] shrink-0 text-sm text-ink-soft">{c.code}</span>
-            <span>{c.name}</span>
-          </li>
-        ))
-      }
-    </ul>
+<section id="education" class="education" aria-labelledby="education-title">
+  <div class="grid">
+    <div class="side">
+      <h2 id="education-title">Education and activities</h2>
+      <p class="lead">Coursework, courses, activities and awards, as they appear in the resume.</p>
+      <a href={site.resume} download class="button">Download resume<span class="sr-only"> (PDF)</span></a>
+    </div>
+    <div class="sheet-wrap">
+      <Scallop />
+      <div class="sheet">
+        <h3 class="school">{record.school}</h3>
+        <p class="degree">{record.degree}</p>
+        {
+          record.groups.map((g) => (
+            <div class="group">
+              <h4>{g.name}</h4>
+              <ul>
+                {g.items.map((it) => (
+                  <li>
+                    <div class="line">
+                      <span class="left">{it.left}</span>
+                      <span class="right num">{it.right}</span>
+                    </div>
+                    {it.note && <p class="note small">{it.note}</p>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+        <div class="closing">
+          {record.closing.map((l) => <p>{l}</p>)}
+        </div>
+      </div>
+      <Scallop flip />
+    </div>
   </div>
+</section>
 
-  <ul class="mt-12 space-y-8">
-    {
-      learning.map((l) => (
-        <li class="reveal grid gap-2 border-t rule pt-6 sm:grid-cols-12 sm:gap-8">
-          <h3 class="text-lg font-medium leading-snug sm:col-span-4">{l.title}</h3>
-          <p class="leading-relaxed text-ink sm:col-span-8">{l.detail}</p>
-        </li>
-      ))
+<style>
+  .education {
+    padding: clamp(96px, 12vw, 180px) var(--margin);
+    background: var(--ground);
+    color: var(--on-ground);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    row-gap: 48px;
+  }
+  .side {
+    grid-column: 1 / span 5;
+    position: sticky;
+    top: 48px;
+    align-self: start;
+  }
+  .side h2 {
+    font-size: var(--step-head);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    max-width: 14ch;
+  }
+  .side .lead {
+    margin-top: 24px;
+    max-width: 34ch;
+  }
+  .side .button {
+    margin-top: 32px;
+    --tab: var(--paper);
+    --on-tab: var(--ink);
+  }
+  .sheet-wrap {
+    grid-column: 7 / span 6;
+    --sheet: var(--paper);
+  }
+  .sheet {
+    background: var(--paper);
+    color: var(--ink);
+    padding: 48px 64px;
+    text-align: center;
+  }
+  .school {
+    font-size: 2.75rem;
+    line-height: 0.95;
+  }
+  .degree {
+    margin: 14px auto 0;
+    font-size: var(--step-small);
+    color: var(--muted);
+    max-width: 40ch;
+  }
+  .group {
+    margin-top: 56px;
+    text-align: left;
+  }
+  .group h4 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  .group ul {
+    list-style: none;
+    margin: 20px 0 0;
+    padding: 0;
+  }
+  .group li + li {
+    margin-top: 16px;
+  }
+  .line {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    align-items: baseline;
+  }
+  .left {
+    max-width: 30ch;
+  }
+  .right {
+    flex: none;
+    text-align: right;
+    color: var(--ink);
+  }
+  .note {
+    margin-top: 4px;
+    color: var(--muted);
+    max-width: 44ch;
+  }
+  .closing {
+    margin-top: 56px;
+    text-align: center;
+  }
+  .closing p {
+    margin: 0 auto;
+  }
+  @media (max-width: 1023px) {
+    .side {
+      grid-column: 1 / -1;
+      position: static;
     }
-  </ul>
-</Section>
+    .sheet-wrap {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 767px) {
+    .sheet {
+      padding: 28px 20px;
+    }
+    .school {
+      font-size: 2.25rem;
+    }
+    .group {
+      margin-top: 40px;
+    }
+    .left {
+      max-width: none;
+    }
+  }
+</style>

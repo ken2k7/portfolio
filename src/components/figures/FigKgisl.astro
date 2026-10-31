@@ -1,0 +1,48 @@
+---
+// Two pipelines: claim documents through Claude extraction into a SQLite harness, and weather data into a risk layer.
+---
+
+<svg viewBox="0 0 800 500" role="img" aria-labelledby="fig-kgisl-title fig-kgisl-desc" class="fig">
+  <title id="fig-kgisl-title">Work at KGiSL</title>
+  <desc id="fig-kgisl-desc">
+    Two flows. Motor-insurance claim documents pass through Claude API extraction into a Python and SQLite test harness.
+    OpenWeatherMap data passes into a weather-risk ingestion layer. Below them, three dashboard views.
+  </desc>
+  <g fill="currentColor">
+    <rect x="40" y="60" width="190" height="64" />
+    <rect x="305" y="60" width="190" height="64" />
+    <rect x="570" y="60" width="190" height="64" />
+    <rect x="40" y="190" width="190" height="64" />
+    <rect x="305" y="190" width="190" height="64" />
+    <rect x="40" y="340" width="220" height="110" />
+    <rect x="290" y="340" width="220" height="110" />
+    <rect x="540" y="340" width="220" height="110" />
+  </g>
+  <g stroke="currentColor" stroke-width="3">
+    <line x1="230" y1="92" x2="305" y2="92" />
+    <line x1="495" y1="92" x2="570" y2="92" />
+    <line x1="230" y1="222" x2="305" y2="222" />
+  </g>
+  <g font-family="var(--font-text)" font-size="20" fill="var(--fig-bg)" text-anchor="middle" dominant-baseline="central">
+    <text x="135" y="92">Claim documents</text>
+    <text x="400" y="92">Claude extraction</text>
+    <text x="665" y="92">SQLite test harness</text>
+    <text x="135" y="222">OpenWeatherMap</text>
+    <text x="400" y="222">Weather-risk layer</text>
+  </g>
+  <g fill="var(--fig-bg)">
+    <rect x="60" y="360" width="60" height="8" /><rect x="60" y="380" width="180" height="50" />
+    <rect x="310" y="360" width="60" height="8" /><rect x="310" y="380" width="40" height="50" /><rect x="360" y="396" width="40" height="34" /><rect x="410" y="384" width="40" height="46" /><rect x="460" y="404" width="30" height="26" />
+    <rect x="560" y="360" width="60" height="8" /><rect x="560" y="384" width="180" height="6" /><rect x="560" y="400" width="130" height="6" /><rect x="560" y="416" width="160" height="6" />
+  </g>
+  <text x="40" y="310" font-family="var(--font-text)" font-size="20" fill="currentColor">Three dashboard views in React</text>
+</svg>
+
+<style>
+  .fig {
+    display: block;
+    width: 100%;
+    height: auto;
+    color: var(--fig-ink);
+  }
+</style>

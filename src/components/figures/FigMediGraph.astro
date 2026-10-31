@@ -1,0 +1,64 @@
+---
+// A condition, its related visit, medication change and test, and the source document behind one fact.
+const nodes = [
+  { id: 'condition', x: 300, y: 250, w: 170, h: 56, label: 'Condition' },
+  { id: 'visit', x: 90, y: 110, w: 120, h: 52, label: 'Visit' },
+  { id: 'med', x: 60, y: 390, w: 230, h: 52, label: 'Medication change' },
+  { id: 'test', x: 330, y: 90, w: 110, h: 52, label: 'Test' },
+];
+const cx = (n: (typeof nodes)[0]) => n.x + n.w / 2;
+const cy = (n: (typeof nodes)[0]) => n.y + n.h / 2;
+const c = nodes[0];
+---
+
+<svg viewBox="0 0 800 500" role="img" aria-labelledby="fig-medigraph-title fig-medigraph-desc" class="fig">
+  <title id="fig-medigraph-title">MediGraph data model</title>
+  <desc id="fig-medigraph-desc">
+    A condition node linked to a visit, a medication change and a test. The test is linked to one highlighted line of a
+    source document, showing the character-level link from a fact to its source text.
+  </desc>
+  <g stroke="currentColor" stroke-width="3" fill="none">
+    {nodes.slice(1).map((n) => <line x1={cx(c)} y1={cy(c)} x2={cx(n)} y2={cy(n)} />)}
+    <path d={`M ${nodes[3].x + nodes[3].w} ${cy(nodes[3])} C 560 ${cy(nodes[3])}, 560 206, 586 206`} />
+  </g>
+  <g fill="currentColor">
+    {nodes.map((n) => <rect x={n.x} y={n.y} width={n.w} height={n.h} />)}
+  </g>
+  <g font-family="var(--font-text)" font-size="22" fill="var(--fig-bg)" text-anchor="middle" dominant-baseline="central">
+    {nodes.map((n) => (
+      <text x={cx(n)} y={cy(n)}>
+        {n.label}
+      </text>
+    ))}
+  </g>
+  <g transform="translate(586 60)">
+    <rect width="184" height="380" fill="currentColor" />
+    <g fill="var(--fig-bg)">
+      <rect x="22" y="26" width="92" height="10" />
+      <rect x="22" y="56" width="140" height="8" />
+      <rect x="22" y="76" width="126" height="8" />
+      <rect x="22" y="96" width="140" height="8" />
+      <rect x="22" y="116" width="98" height="8" />
+      <rect x="16" y="136" width="152" height="22" />
+      <rect x="22" y="176" width="140" height="8" />
+      <rect x="22" y="196" width="118" height="8" />
+      <rect x="22" y="216" width="140" height="8" />
+      <rect x="22" y="236" width="80" height="8" />
+      <rect x="22" y="276" width="140" height="8" />
+      <rect x="22" y="296" width="130" height="8" />
+      <rect x="22" y="316" width="106" height="8" />
+      <rect x="22" y="336" width="140" height="8" />
+    </g>
+    <rect x="18" y="138" width="148" height="18" fill="currentColor" />
+    <text x="92" y="414" font-family="var(--font-text)" font-size="20" fill="var(--fig-bg)" text-anchor="middle">Source document</text>
+  </g>
+</svg>
+
+<style>
+  .fig {
+    display: block;
+    width: 100%;
+    height: auto;
+    color: var(--fig-ink);
+  }
+</style>

@@ -1,23 +1,109 @@
 ---
-import Section from './Section.astro';
 import { skills } from '../data/content';
 ---
 
-<Section id="skills" number="04 — Skills" title="What I work with.">
-  <dl class="divide-y rule border-y rule">
-    {
-      skills.map((g) => (
-        <div class="reveal grid gap-2 py-5 sm:grid-cols-12 sm:gap-8">
-          <dt class="label sm:col-span-4 sm:pt-1">{g.group}</dt>
-          <dd class="sm:col-span-8">
-            <ul class="flex flex-wrap gap-x-2 gap-y-2">
+<section id="skills" class="skills" aria-labelledby="skills-title">
+  <div class="col">
+    <h2 id="skills-title" class="giant">Skills</h2>
+    <div class="bars">
+      {
+        skills.map((g, i) => (
+          <details class="bar" open={i === 0}>
+            <summary>
+              <h3>{g.group}</h3>
+              <span class="plus" aria-hidden="true" />
+            </summary>
+            <ul>
               {g.items.map((item) => (
-                <li class="rounded-full border rule px-3 py-1 text-sm leading-snug text-ink">{item}</li>
+                <li>{item}</li>
               ))}
             </ul>
-          </dd>
-        </div>
-      ))
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .skills {
+    padding: clamp(96px, 12vw, 180px) var(--margin);
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .col {
+    width: min(760px, 100%);
+    margin: 0 auto;
+    container-type: inline-size;
+  }
+  .giant {
+    font-size: 36cqw;
+    line-height: 0.8;
+    letter-spacing: -0.02em;
+    margin-left: -0.03em;
+  }
+  .bars {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .bar {
+    background: var(--paper-2);
+  }
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 56px;
+    padding: 0 18px;
+    cursor: pointer;
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary h3 {
+    font-family: var(--font-text);
+    font-weight: 500;
+    font-size: var(--step-body);
+  }
+  .plus {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    flex: none;
+  }
+  .plus::before,
+  .plus::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 18px;
+    height: 3px;
+    background: currentColor;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s var(--ease-out);
+  }
+  .plus::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+  .bar[open] .plus::after {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  .bar ul {
+    list-style: none;
+    margin: 0;
+    padding: 4px 18px 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+    font-size: var(--step-body);
+  }
+  @media (max-width: 479px) {
+    .bar ul {
+      grid-template-columns: 1fr;
     }
-  </dl>
-</Section>
+  }
+</style>

@@ -1,10 +1,85 @@
 ---
-import Section from './Section.astro';
-import { about } from '../data/content';
+import { site, letter } from '../data/content';
+import Scallop from './Scallop.astro';
 ---
 
-<Section id="about" number="01 — About" title="A short introduction.">
-  <div class="prose-site reveal max-w-2xl text-lg leading-[1.7] text-ink sm:text-xl">
-    {about.map((p) => <p>{p}</p>)}
+<section id="about" class="about" aria-labelledby="about-title">
+  <div class="sheet-wrap">
+    <div class="sheet">
+      <h2 id="about-title">About</h2>
+      <div class="body">
+        {letter.paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+      <p class="sign">{letter.signature}</p>
+      <p class="role small">{letter.role}</p>
+    </div>
+    <Scallop flip />
+    <div class="tear">
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+    </div>
   </div>
-</Section>
+</section>
+
+<style>
+  .about {
+    padding: clamp(96px, 12vw, 180px) var(--margin);
+    background: var(--ground);
+    color: var(--on-ground);
+  }
+  .sheet-wrap {
+    width: min(640px, 100%);
+    margin: 0 auto;
+    --sheet: var(--paper);
+  }
+  .sheet {
+    background: var(--paper);
+    color: var(--ink);
+    padding: 56px 60px 48px;
+  }
+  h2 {
+    font-size: 2rem;
+    line-height: 1;
+  }
+  .body {
+    margin-top: 28px;
+    font-size: var(--step-body);
+    line-height: 1.55;
+  }
+  .sign {
+    margin-top: 32px;
+    font-style: italic;
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+  .role {
+    margin-top: 4px;
+    color: var(--muted);
+  }
+  .tear {
+    margin-top: 10px;
+    border-top: 5px dotted var(--on-ground);
+    padding-top: 10px;
+  }
+  .tear a {
+    display: flex;
+    align-items: center;
+    min-height: 72px;
+    padding: 0 60px;
+    background: var(--paper-2);
+    color: var(--ink);
+    font-size: var(--step-lead);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .tear a:hover {
+    text-decoration: underline;
+  }
+  @media (max-width: 767px) {
+    .sheet {
+      padding: 32px 24px 32px;
+    }
+    .tear a {
+      padding: 16px 24px;
+    }
+  }
+</style>

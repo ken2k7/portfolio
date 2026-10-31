@@ -1,0 +1,46 @@
+---
+// One street, four utilities. Above: each digs on its own schedule. Below: one shared trench.
+const works = ['Road', 'Water', 'Drainage', 'Fibre'];
+const separate = [
+  { x: 240, w: 120 },
+  { x: 410, w: 110 },
+  { x: 300, w: 140 },
+  { x: 560, w: 150 },
+];
+---
+
+<svg viewBox="0 0 800 500" role="img" aria-labelledby="fig-infrasync-title fig-infrasync-desc" class="fig">
+  <title id="fig-infrasync-title">InfraSync scheduling</title>
+  <desc id="fig-infrasync-desc">
+    Two schedules for one street. In the first, road, water, drainage and fibre works are dug at four different times.
+    In the second, the four works share one trench and the street is dug once.
+  </desc>
+  <g font-family="var(--font-text)" font-size="22" fill="currentColor">
+    <text x="40" y="44">Four utilities, four digs</text>
+    <text x="40" y="304">One schedule, one trench</text>
+  </g>
+  <g font-family="var(--font-text)" font-size="20" fill="currentColor">
+    {works.map((w, i) => <text x="40" y={92 + i * 40}>{w}</text>)}
+    {works.map((w, i) => <text x="40" y={352 + i * 32}>{w}</text>)}
+  </g>
+  <g fill="currentColor">
+    {separate.map((s, i) => <rect x={s.x} y={74 + i * 40} width={s.w} height="22" />)}
+  </g>
+  <g fill="currentColor">
+    <rect x="240" y="330" width="520" height="8" />
+    {works.map((w, i) => <rect x="240" y={336 + i * 32} width="200" height="22" />)}
+    <rect x="240" y="462" width="520" height="8" />
+  </g>
+  <g font-family="var(--font-text)" font-size="20" fill="currentColor">
+    <text x="470" y="412">Street open once</text>
+  </g>
+</svg>
+
+<style>
+  .fig {
+    display: block;
+    width: 100%;
+    height: auto;
+    color: var(--fig-ink);
+  }
+</style>

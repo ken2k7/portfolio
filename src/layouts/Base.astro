@@ -1,8 +1,6 @@
 ---
 import '../styles/global.css';
 import { site } from '../data/content';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
 
 interface Props {
   title?: string;
@@ -18,7 +16,7 @@ const jsonLd = {
   name: site.name,
   url: site.url,
   email: `mailto:${site.email}`,
-  jobTitle: 'Computer Science student',
+  jobTitle: 'Computer science student',
   affiliation: { '@type': 'CollegeOrUniversity', name: 'National University of Singapore' },
   address: { '@type': 'PostalAddress', addressCountry: 'SG' },
   sameAs: [site.linkedin, site.github],
@@ -34,8 +32,8 @@ const jsonLd = {
     <meta name="description" content={description} />
     <meta name="author" content={site.name} />
     <link rel="canonical" href={canonical} />
-    <meta name="theme-color" content="#f6f3ee" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#141210" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#062b8a" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#04163f" media="(prefers-color-scheme: dark)" />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
@@ -51,15 +49,15 @@ const jsonLd = {
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={`${site.name}. Computer Science at NUS. Full-stack and applied-AI products.`} />
+    <meta property="og:image:alt" content="A sand-coloured file folder with a tab reading Kenil Gandhi, on cobalt blue." />
     <meta property="og:locale" content="en_SG" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <link rel="preload" href="/fonts/instrument-serif-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/bebas-neue-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/eb-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
 
     <script is:inline>
       (function () {
@@ -67,101 +65,60 @@ const jsonLd = {
           var t = localStorage.getItem('theme');
           if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
         } catch (e) {}
-        document.documentElement.classList.add('js');
       })();
     </script>
-
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
-  <body class="min-h-dvh antialiased">
-    <a
-      href="#main"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-full focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-ink"
-    >
-      Skip to content
-    </a>
-    <Header />
-    <main id="main" tabindex="-1" class="outline-none">
+  <body>
+    <a href="#work" class="skip">Skip to the work</a>
+    <main id="top">
       <slot />
     </main>
-    <Footer />
+    <slot name="footer" />
 
     <script>
-      // Scroll reveal. Progressive enhancement: without JS everything is simply visible.
-      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const targets = document.querySelectorAll<HTMLElement>('.reveal, .hairline');
-      if (reduce || !('IntersectionObserver' in window)) {
-        targets.forEach((el) => el.classList.add('is-visible'));
-      } else {
-        const io = new IntersectionObserver(
-          (entries) => {
-            for (const entry of entries) {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                io.unobserve(entry.target);
-              }
-            }
-          },
-          { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
-        );
-        targets.forEach((el) => io.observe(el));
-
-        // Fallback: also reveal on scroll/resize using geometry, so content never
-        // depends on observer timing (throttled tabs, odd embeds, print).
-        const sweep = () => {
-          const limit = window.innerHeight * 0.96;
-          targets.forEach((el) => {
-            if (!el.classList.contains('is-visible') && el.getBoundingClientRect().top < limit) {
-              el.classList.add('is-visible');
-            }
-          });
-        };
-        window.addEventListener('scroll', sweep, { passive: true });
-        window.addEventListener('resize', sweep, { passive: true });
-        window.addEventListener('load', sweep);
-        window.addEventListener('beforeprint', () => targets.forEach((el) => el.classList.add('is-visible')));
-        sweep();
-      }
-
-      // Theme toggle
+      // Theme toggle: a text control. Without script the page follows the system setting.
       const root = document.documentElement;
       const mq = window.matchMedia('(prefers-color-scheme: dark)');
       const effective = () => root.getAttribute('data-theme') ?? (mq.matches ? 'dark' : 'light');
-      const syncLabel = () => {
+      const buttons = document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]');
+      const sync = () => {
         const next = effective() === 'dark' ? 'light' : 'dark';
-        document.querySelectorAll<HTMLButtonElement>('.theme-toggle').forEach((b) => {
+        buttons.forEach((b) => {
+          b.textContent = next === 'dark' ? 'Dark mode' : 'Light mode';
           b.setAttribute('aria-label', `Switch to ${next} mode`);
-          b.title = `Switch to ${next} mode`;
         });
       };
-      document.querySelectorAll<HTMLButtonElement>('.theme-toggle').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const next = effective() === 'dark' ? 'light' : 'dark';
-          root.setAttribute('data-theme', next);
+      buttons.forEach((b) => {
+        b.hidden = false;
+        b.addEventListener('click', () => {
+          root.setAttribute('data-theme', effective() === 'dark' ? 'light' : 'dark');
           try {
-            localStorage.setItem('theme', next);
+            localStorage.setItem('theme', root.getAttribute('data-theme') ?? '');
           } catch {}
-          syncLabel();
+          sync();
         });
       });
-      mq.addEventListener('change', syncLabel);
-      syncLabel();
-
-      // Local time in Singapore
-      const timeEl = document.getElementById('local-time');
-      if (timeEl) {
-        const fmt = new Intl.DateTimeFormat('en-GB', {
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: false,
-          timeZone: 'Asia/Singapore',
-        });
-        const tick = () => {
-          timeEl.textContent = `${fmt.format(new Date())} SGT`;
-        };
-        tick();
-        window.setInterval(tick, 20_000);
-      }
+      mq.addEventListener('change', sync);
+      sync();
     </script>
+
+    <style>
+      .skip {
+        position: absolute;
+        left: var(--margin);
+        top: -100px;
+        z-index: 50;
+        padding: 12px 20px;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        text-decoration: none;
+      }
+      .skip:focus-visible {
+        top: 12px;
+      }
+    </style>
   </body>
 </html>
