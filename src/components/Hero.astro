@@ -1,16 +1,23 @@
 ---
-import { getImage } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import { site, stage } from '../data/content';
-import cityPoster from '../assets/posters/hf1_city.jpg';
-const cityWebp = await getImage({ src: cityPoster, width: 1280, format: 'webp', quality: 70 });
+import doha from '../assets/photos/doha.jpg';
 ---
 
 <section class="hero" aria-labelledby="name">
-  <img class="film poster" src={cityWebp.src} width={cityWebp.attributes.width} height={cityWebp.attributes.height} alt="" fetchpriority="high" decoding="async" />
-  <video class="film" autoplay muted loop playsinline preload="metadata" poster={cityWebp.src} aria-hidden="true" tabindex="-1">
-    <source src="/clips/hf1_city-m.mp4" type="video/mp4" media="(max-width: 767px)" />
-    <source src="/clips/hf1_city.mp4" type="video/mp4" />
-  </video>
+  <div class="film-wrap">
+    <Picture
+      src={doha}
+      widths={[800, 1400, 2000, 2400]}
+      sizes="100vw"
+      formats={['avif', 'webp']}
+      alt="The West Bay skyline of Doha at night, lit towers reflected in the water of the Corniche."
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+      class="film"
+    />
+  </div>
   <div class="scrim bottom"></div>
   <div class="hero-text">
     <h1 id="name" class="display">Kenil Gandhi</h1>
@@ -30,6 +37,20 @@ const cityWebp = await getImage({ src: cityPoster, width: 1280, format: 'webp', 
     display: grid;
     align-content: end;
     padding: 120px var(--margin) clamp(48px, 8vh, 96px);
+  }
+  .film-wrap {
+    position: absolute;
+    inset: 0;
+  }
+  .film-wrap :global(picture),
+  .film-wrap :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 40%;
+    filter: brightness(0.62) saturate(0.85) contrast(1.05);
   }
   .hero-text {
     position: relative;

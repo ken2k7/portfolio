@@ -16,9 +16,8 @@ function hero() {
   if (!el) return;
   gsap
     .timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: el, start: 'top top', end: 'bottom top', scrub: 0.5, onUpdate: (s) => mark?.classList.toggle('show', s.progress > 0.5) } })
-    .to(el.querySelectorAll('.film'), { scale: 1.1, filter: 'brightness(0.3) saturate(0.6) contrast(1.05)', duration: 1 }, 0)
+    .to(el.querySelectorAll('.film-wrap img'), { scale: 1.1, filter: 'brightness(0.3) saturate(0.6) contrast(1.05)', duration: 1 }, 0)
     .to(el.querySelector('.hero-text'), { y: '-18vh', autoAlpha: 0.2, duration: 1 }, 0);
-  ScrollTrigger.create({ trigger: el, start: 'top bottom', end: 'bottom top', onToggle: (s) => el.querySelectorAll('video').forEach((v) => (s.isActive ? v.play().catch(() => {}) : v.pause())) });
 }
 
 function scene() {
